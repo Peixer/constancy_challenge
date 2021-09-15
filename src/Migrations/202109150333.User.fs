@@ -1,7 +1,7 @@
 namespace Migrations
 open SimpleMigrations
 
-[<Migration(202109150333L, "Create Users")>]
+[<Migration(1L, "Create Users")>]
 type CreateUsers() =
   inherit Migration()
 
@@ -9,8 +9,8 @@ type CreateUsers() =
     base.Execute(@"CREATE TABLE Users(
       id TEXT NOT NULL,
       name TEXT NOT NULL,
-      created DATETIME NOT NULL,
-      deleted DATETIME NOT NULL
+      created timestamp NOT NULL,
+      deleted timestamp NOT NULL
     )")
 
   override __.Down() =
