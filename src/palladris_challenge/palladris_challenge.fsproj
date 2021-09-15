@@ -7,13 +7,7 @@
     <Compile Include="Database.fs" />
     <Compile Include="Config.fs" />
 
-    <Compile Include="Templates\App.fs" />
-    <Compile Include="Templates\Index.fs" />
-    <Compile Include="Templates\NotFound.fs" />
-    <Compile Include="Templates\InternalError.fs" />
-
     <Compile Include="Users\UsersModel.fs" />
-    <Compile Include="Users\UsersViews.fs" />
     <Compile Include="Users\UsersRepository.fs" />
     <Compile Include="Users\UsersController.fs" />
     <Compile Include="Router.fs" />
@@ -25,6 +19,10 @@
     <Content Include="*.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Json" Version="0.4.1" />
+    <PackageReference Include="FSharp.SystemTextJson" Version="0.17.4" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
