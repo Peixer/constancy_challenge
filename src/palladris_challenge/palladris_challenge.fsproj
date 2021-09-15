@@ -12,6 +12,10 @@
     <Compile Include="Templates\NotFound.fs" />
     <Compile Include="Templates\InternalError.fs" />
 
+    <Compile Include="Users\UsersModel.fs" />
+    <Compile Include="Users\UsersViews.fs" />
+    <Compile Include="Users\UsersRepository.fs" />
+    <Compile Include="Users\UsersController.fs" />
     <Compile Include="Router.fs" />
     <Compile Include="Program.fs" />
 
