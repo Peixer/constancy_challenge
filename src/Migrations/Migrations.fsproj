@@ -6,6 +6,8 @@
   <ItemGroup>
 
     <Compile Include="202109150333.User.fs" />
+    <Compile Include="202109150504.Provider.fs" />
+    <Compile Include="202109150506.Pair.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
