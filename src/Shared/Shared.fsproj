@@ -5,5 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Shared.fs" />
+    <Compile Include="Entities\User.fs" />
+    <Compile Include="Entities\Order.fs" />
+    <Compile Include="Entities\Provider.fs" />
   </ItemGroup>
 </Project>
