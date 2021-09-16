@@ -10,6 +10,7 @@
     <Compile Include="202109150506.Pair.fs" />
     <Compile Include="202109161036.BookOrder.fs" />
     <Compile Include="202109161037.HistoryOrder.fs" />
+    <Compile Include="202109161051.UserWallet.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

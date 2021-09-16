@@ -22,6 +22,9 @@
     <Compile Include="HistoryOrders\HistoryOrdersModel.fs" />
     <Compile Include="HistoryOrders\HistoryOrdersRepository.fs" />
     <Compile Include="HistoryOrders\HistoryOrdersController.fs" />
+    <Compile Include="UserWallets\UserWalletsModel.fs" />
+    <Compile Include="UserWallets\UserWalletsRepository.fs" />
+    <Compile Include="UserWallets\UserWalletsController.fs" />
     <Compile Include="Router.fs" />
     <Compile Include="Program.fs" />
 
