@@ -10,6 +10,9 @@ let apiRouter =
 
         forward "/users" Users.Controller.resource
         forward "/providers" Providers.Controller.resource
+        forward "/pairs" Pairs.Controller.resource
+        forward "/orders" BookOrders.Controller.resource
+        forward "/histories" HistoryOrders.Controller.resource
     }
 
 let appRouter = router { forward "/api" apiRouter }

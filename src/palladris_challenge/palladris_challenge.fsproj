@@ -16,6 +16,12 @@
     <Compile Include="Pairs\PairsModel.fs" />
     <Compile Include="Pairs\PairsRepository.fs" />
     <Compile Include="Pairs\PairsController.fs" />
+    <Compile Include="BookOrders\BookOrdersModel.fs" />
+    <Compile Include="BookOrders\BookOrdersRepository.fs" />
+    <Compile Include="BookOrders\BookOrdersController.fs" />
+    <Compile Include="HistoryOrders\HistoryOrdersModel.fs" />
+    <Compile Include="HistoryOrders\HistoryOrdersRepository.fs" />
+    <Compile Include="HistoryOrders\HistoryOrdersController.fs" />
     <Compile Include="Router.fs" />
     <Compile Include="Program.fs" />
 
