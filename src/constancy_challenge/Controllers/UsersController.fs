@@ -74,6 +74,10 @@ module UsersController =
 
     let resource =
         controller {
+            subController "/wallets" UserWalletsController.resource
+            subController "/orders" BookOrdersController.resource
+            subController "/histories" HistoryOrdersController.resource   
+            
             index indexAction
             show showAction
             create createAction

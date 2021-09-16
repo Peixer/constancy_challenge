@@ -72,7 +72,7 @@ module PairsControllers =
             | Error ex -> return raise ex
         }
 
-    let resource =
+    let resource userdId =
         controller {
             index indexAction
             show showAction

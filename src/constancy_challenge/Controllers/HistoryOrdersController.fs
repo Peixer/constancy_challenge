@@ -72,7 +72,7 @@ module HistoryOrdersController =
             | Error ex -> return raise ex
         }
 
-    let resource =
+    let resource userId =
         controller {
             index indexAction
             show showAction

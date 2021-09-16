@@ -62,7 +62,7 @@ module UserWalletsController =
                 return Json.serialize validateResult
         }
 
-    let resource =
+    let resource userdId =
         controller {
             index indexAction
             show showAction

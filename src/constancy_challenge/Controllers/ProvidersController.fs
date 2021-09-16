@@ -79,9 +79,15 @@ module ProvidersController =
 
     let resource =
         controller {
+
+            subController "/pairs" PairsControllers.resource
+            subController "/orders" BookOrdersController.resource
+            subController "/histories" HistoryOrdersController.resource   
+            
             index indexAction
             show showAction
             create createAction
             update updateAction
             delete deleteAction
+
         }
