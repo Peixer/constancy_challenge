@@ -1,14 +1,13 @@
-namespace HistoryOrders
+namespace Shared.UserWallets
 
 [<CLIMutable>]
-type HistoryOrder =
+type UserWallet =
     { id: string
       idUser: string
       idPair: string
-      quantity: float
-      price: float
-      side: int
-      created: System.DateTime }
+      amount: float
+      created: System.DateTime
+      deleted: System.DateTime }
 
 module Validation =
     let validate v =

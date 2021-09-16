@@ -1,14 +1,14 @@
-namespace Pairs
+namespace Shared.HistoryOrders
 
 [<CLIMutable>]
-type Pair =
+type HistoryOrder =
     { id: string
-      name: string
-      idProvider: string
-      status: int
-      transactionFee: float
-      created: System.DateTime
-      deleted: System.DateTime }
+      idUser: string
+      idPair: string
+      quantity: float
+      price: float
+      side: int
+      created: System.DateTime }
 
 module Validation =
     let validate v =

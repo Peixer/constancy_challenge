@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Shared</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Models\PairsModel.fs" />
+    <Compile Include="Models\UserWalletsModel.fs" />
+    <Compile Include="Models\HistoryOrdersModel.fs" />
+    <Compile Include="Models\BookOrdersModel.fs" />
+    <Compile Include="Models\UsersModel.fs" />
+    <Compile Include="Models\ProvidersModel.fs" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

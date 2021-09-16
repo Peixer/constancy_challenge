@@ -4,15 +4,16 @@ open Database
 open System.Threading.Tasks
 open Npgsql
 open FSharp.Control.Tasks.ContextInsensitive
+open Shared
 
 module Database =
-    let getAll connectionString : Task<Result<User seq, exn>> =
+    let getAll connectionString : Task<Result<Shared.Users.User seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
             return! query connection "SELECT id, name, created, deleted FROM Users" None
         }
 
-    let getById connectionString id : Task<Result<User option, exn>> =
+    let getById connectionString id : Task<Result<Shared.Users.User option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 

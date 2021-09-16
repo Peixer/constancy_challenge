@@ -6,8 +6,8 @@ open Fake.DotNet
 open Fake.IO
 open System.Threading
 
-let appPath = "./src/palladris_challenge/" |> Path.getFullName
-let projectPath = Path.combine appPath "palladris_challenge.fsproj"
+let appPath = "./src/constancy_challenge/" |> Path.getFullName
+let projectPath = Path.combine appPath "constancy_challenge.fsproj"
 
 
 Target.create "Clean" ignore

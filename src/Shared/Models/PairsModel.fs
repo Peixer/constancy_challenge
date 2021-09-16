@@ -1,14 +1,12 @@
-namespace BookOrders
+namespace Shared.Pairs
 
 [<CLIMutable>]
-type BookOrder =
+type Pair =
     { id: string
-      idUser: string
-      idPair: string
-      quantity: float
-      price: float
+      name: string
+      idProvider: string
       status: int
-      side: int
+      transactionFee: float
       created: System.DateTime
       deleted: System.DateTime }
 

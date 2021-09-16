@@ -1,11 +1,9 @@
-namespace UserWallets
+namespace Shared.Users
 
 [<CLIMutable>]
-type UserWallet =
+type User =
     { id: string
-      idUser: string
-      idPair: string
-      amount: float
+      name: string
       created: System.DateTime
       deleted: System.DateTime }
 

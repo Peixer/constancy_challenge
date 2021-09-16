@@ -31,8 +31,8 @@ module Controller =
 
     let createAction (ctx: HttpContext) =
         task {
-            let! input = Controller.getModel<UserWallet> ctx
-            let validateResult = Validation.validate input
+            let! input = Controller.getModel<Shared.UserWallets.UserWallet> ctx
+            let validateResult = Shared.UserWallets.Validation.validate input
 
             if validateResult.IsEmpty then
 
@@ -48,8 +48,8 @@ module Controller =
 
     let updateAction (ctx: HttpContext) (id: string) =
         task {
-            let! input = Controller.getModel<UserWallet> ctx
-            let validateResult = Validation.validate input
+            let! input = Controller.getModel<Shared.UserWallets.UserWallet> ctx
+            let validateResult = Shared.UserWallets.Validation.validate input
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx

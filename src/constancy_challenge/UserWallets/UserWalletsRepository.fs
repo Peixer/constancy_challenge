@@ -6,13 +6,13 @@ open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
 
 module Database =
-    let getAll connectionString : Task<Result<UserWallet seq, exn>> =
+    let getAll connectionString : Task<Result<Shared.UserWallets.UserWallet seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
             return! query connection "SELECT id, idUser, idPair, amount, created, deleted FROM UserWallets" None
         }
 
-    let getById connectionString id : Task<Result<UserWallet option, exn>> =
+    let getById connectionString id : Task<Result<Shared.UserWallets.UserWallet option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 

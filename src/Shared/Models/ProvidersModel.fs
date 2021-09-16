@@ -1,7 +1,7 @@
-namespace Users
+namespace Shared.Providers
 
 [<CLIMutable>]
-type User =
+type Provider =
     { id: string
       name: string
       created: System.DateTime

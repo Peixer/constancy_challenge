@@ -6,13 +6,13 @@ open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
 
 module Database =
-    let getAll connectionString : Task<Result<Provider seq, exn>> =
+    let getAll connectionString : Task<Result<Shared.Providers.Provider seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
             return! query connection "SELECT id, name, created, deleted FROM Providers" None
         }
 
-    let getById connectionString id : Task<Result<Provider option, exn>> =
+    let getById connectionString id : Task<Result<Shared.Providers.Provider option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 

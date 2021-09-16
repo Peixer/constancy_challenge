@@ -4,9 +4,10 @@ open Database
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
+open Shared;
 
 module Database =
-    let getAll connectionString : Task<Result<BookOrder seq, exn>> =
+    let getAll connectionString : Task<Result<Shared.BookOrders.BookOrder seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
@@ -17,7 +18,7 @@ module Database =
                     None
         }
 
-    let getById connectionString id : Task<Result<BookOrder option, exn>> =
+    let getById connectionString id : Task<Result<Shared.BookOrders.BookOrder option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 

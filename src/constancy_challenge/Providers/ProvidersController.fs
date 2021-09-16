@@ -31,8 +31,8 @@ module Controller =
 
     let createAction (ctx: HttpContext) =
         task {
-            let! input = Controller.getModel<Provider> ctx
-            let validateResult = Validation.validate input
+            let! input = Controller.getModel<Shared.Providers.Provider> ctx
+            let validateResult = Shared.Providers.Validation.validate input
 
             if validateResult.IsEmpty then
 
@@ -48,8 +48,8 @@ module Controller =
 
     let updateAction (ctx: HttpContext) (id: string) =
         task {
-            let! input = Controller.getModel<Provider> ctx
-            let validateResult = Validation.validate input
+            let! input = Controller.getModel<Shared.Providers.Provider> ctx
+            let validateResult = Shared.Providers.Validation.validate input
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx

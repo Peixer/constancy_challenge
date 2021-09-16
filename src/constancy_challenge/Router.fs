@@ -2,6 +2,8 @@ module Router
 
 open Saturn
 
+open Shared
+
 let api = pipeline { plug acceptJson }
 
 let apiRouter =

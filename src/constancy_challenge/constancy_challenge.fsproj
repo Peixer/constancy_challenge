@@ -7,23 +7,16 @@
   <ItemGroup>
     <Compile Include="Database.fs" />
     <Compile Include="Config.fs" />
-
-    <Compile Include="Users\UsersModel.fs" />
     <Compile Include="Users\UsersRepository.fs" />
     <Compile Include="Users\UsersController.fs" />
-    <Compile Include="Providers\ProvidersModel.fs" />
     <Compile Include="Providers\ProvidersRepository.fs" />
     <Compile Include="Providers\ProvidersController.fs" />
-    <Compile Include="Pairs\PairsModel.fs" />
     <Compile Include="Pairs\PairsRepository.fs" />
     <Compile Include="Pairs\PairsController.fs" />
-    <Compile Include="BookOrders\BookOrdersModel.fs" />
     <Compile Include="BookOrders\BookOrdersRepository.fs" />
     <Compile Include="BookOrders\BookOrdersController.fs" />
-    <Compile Include="HistoryOrders\HistoryOrdersModel.fs" />
     <Compile Include="HistoryOrders\HistoryOrdersRepository.fs" />
     <Compile Include="HistoryOrders\HistoryOrdersController.fs" />
-    <Compile Include="UserWallets\UserWalletsModel.fs" />
     <Compile Include="UserWallets\UserWalletsRepository.fs" />
     <Compile Include="UserWallets\UserWalletsController.fs" />
     <Compile Include="Router.fs" />
@@ -43,6 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Providers\Pairs\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
