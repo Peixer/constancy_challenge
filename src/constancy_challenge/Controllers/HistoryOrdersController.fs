@@ -1,4 +1,4 @@
-namespace Providers
+namespace Controllers
 
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
@@ -6,12 +6,12 @@ open Config
 open Saturn
 open FSharp.Json
 
-module Controller =
+module HistoryOrdersController =
 
     let indexAction (ctx: HttpContext) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.Providers.Database.getAll cnf.connectionString
+            let! result = Shared.HistoryOrders.Database.getAll cnf.connectionString
 
             match result with
             | Ok result -> return result
@@ -21,7 +21,7 @@ module Controller =
     let showAction (ctx: HttpContext) (id: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.Providers.Database.getById cnf.connectionString id
+            let! result = Shared.HistoryOrders.Database.getById cnf.connectionString id
 
             match result with
             | Ok (Some result) -> return result
@@ -31,13 +31,13 @@ module Controller =
 
     let createAction (ctx: HttpContext) =
         task {
-            let! input = Controller.getModel<Shared.Providers.Provider> ctx
-            let validateResult = Shared.Providers.Validation.validate input
+            let! input = Controller.getModel<Shared.HistoryOrders.HistoryOrder> ctx
+            let validateResult = Shared.HistoryOrders.Validation.validate input
 
             if validateResult.IsEmpty then
 
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Providers.Database.insert cnf.connectionString input
+                let! result = Shared.HistoryOrders.Database.insert cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess"
@@ -48,12 +48,12 @@ module Controller =
 
     let updateAction (ctx: HttpContext) (id: string) =
         task {
-            let! input = Controller.getModel<Shared.Providers.Provider> ctx
-            let validateResult = Shared.Providers.Validation.validate input
+            let! input = Controller.getModel<Shared.HistoryOrders.HistoryOrder> ctx
+            let validateResult = Shared.HistoryOrders.Validation.validate input
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Providers.Database.update cnf.connectionString input
+                let! result = Shared.HistoryOrders.Database.update cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess"
@@ -65,13 +65,12 @@ module Controller =
     let deleteAction (ctx: HttpContext) (id: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Database.delete cnf.connectionString id
+            let! result = Shared.HistoryOrders.Database.delete cnf.connectionString id
 
             match result with
             | Ok _ -> return result
             | Error ex -> return raise ex
         }
-
 
     let resource =
         controller {

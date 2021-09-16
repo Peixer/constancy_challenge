@@ -6,12 +6,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Config.fs" />
-    <Compile Include="Users\UsersController.fs" />
-    <Compile Include="Providers\ProvidersController.fs" />
-    <Compile Include="Pairs\PairsController.fs" />
-    <Compile Include="BookOrders\BookOrdersController.fs" />
-    <Compile Include="HistoryOrders\HistoryOrdersController.fs" />
-    <Compile Include="UserWallets\UserWalletsController.fs" />
+    <Compile Include="Controllers\PairsController.fs" />
+    <Compile Include="Controllers\HistoryOrdersController.fs" />
+    <Compile Include="Controllers\UserWalletsController.fs" />
+    <Compile Include="Controllers\BookOrdersController.fs" />
+    <Compile Include="Controllers\ProvidersController.fs" />
+    <Compile Include="Controllers\UsersController.fs" />
     <Compile Include="Router.fs" />
     <Compile Include="Program.fs" />
 

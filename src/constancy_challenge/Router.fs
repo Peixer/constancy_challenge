@@ -1,21 +1,19 @@
 module Router
 
+open Controllers
 open Saturn
-
-open Shared
-
 let api = pipeline { plug acceptJson }
 
 let apiRouter =
     router {
         pipe_through api
 
-        forward "/users" Users.Controller.resource
-        forward "/providers" Providers.Controller.resource
-        forward "/pairs" Pairs.Controller.resource
-        forward "/orders" BookOrders.Controller.resource
-        forward "/histories" HistoryOrders.Controller.resource
-        forward "/wallets" UserWallets.Controller.resource        
+        forward "/users" UsersController.resource
+        forward "/providers" ProvidersController.resource
+        forward "/pairs" PairsControllers.resource
+        forward "/orders" BookOrdersController.resource
+        forward "/histories" HistoryOrdersController.resource
+        forward "/wallets" UserWalletsController.resource        
     }
 
 let appRouter = router { forward "/api" apiRouter }

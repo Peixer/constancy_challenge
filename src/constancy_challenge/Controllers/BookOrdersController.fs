@@ -1,4 +1,4 @@
-namespace BookOrders
+namespace Controllers
 
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
@@ -6,7 +6,7 @@ open Config
 open Saturn
 open FSharp.Json
 
-module Controller =
+module BookOrdersController =
 
     let indexAction (ctx: HttpContext) =
         task {

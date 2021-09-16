@@ -1,17 +1,17 @@
-namespace UserWallets
+namespace Controllers
 
 open Microsoft.AspNetCore.Http
-open FSharp.Control.Tasks.ContextInsensitive
 open Config
 open Saturn
+open FSharp.Control.Tasks
 open FSharp.Json
 
-module Controller =
+module UsersController =
 
     let indexAction (ctx: HttpContext) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.UserWallets.Database.getAll cnf.connectionString
+            let! result = Shared.Users.Database.getAll cnf.connectionString
 
             match result with
             | Ok result -> return result
@@ -21,7 +21,7 @@ module Controller =
     let showAction (ctx: HttpContext) (id: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.UserWallets.Database.getById cnf.connectionString id
+            let! result = Shared.Users.Database.getById cnf.connectionString id
 
             match result with
             | Ok (Some result) -> return result
@@ -31,13 +31,13 @@ module Controller =
 
     let createAction (ctx: HttpContext) =
         task {
-            let! input = Controller.getModel<Shared.UserWallets.UserWallet> ctx
-            let validateResult = Shared.UserWallets.Validation.validate input
+            let! input = Controller.getModel<Shared.Users.User> ctx
+            let validateResult = Shared.Users.Validation.validate input
 
             if validateResult.IsEmpty then
 
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.UserWallets.Database.insert cnf.connectionString input
+                let! result = Shared.Users.Database.insert cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess"
@@ -48,12 +48,12 @@ module Controller =
 
     let updateAction (ctx: HttpContext) (id: string) =
         task {
-            let! input = Controller.getModel<Shared.UserWallets.UserWallet> ctx
-            let validateResult = Shared.UserWallets.Validation.validate input
+            let! input = Controller.getModel<Shared.Users.User> ctx
+            let validateResult = Shared.Users.Validation.validate input
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.UserWallets.Database.update cnf.connectionString input
+                let! result = Shared.Users.Database.update cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess"
@@ -62,10 +62,21 @@ module Controller =
                 return Json.serialize validateResult
         }
 
+    let deleteAction (ctx: HttpContext) (id: string) =
+        task {
+            let cnf = Controller.getConfig ctx
+            let! result = Shared.Users.Database.delete cnf.connectionString id
+
+            match result with
+            | Ok _ -> return result
+            | Error ex -> return raise ex
+        }
+
     let resource =
         controller {
             index indexAction
             show showAction
             create createAction
             update updateAction
+            delete deleteAction
         }

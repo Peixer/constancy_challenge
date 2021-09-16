@@ -1,4 +1,4 @@
-namespace Pairs
+namespace Controllers
 
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
@@ -6,7 +6,7 @@ open Config
 open Saturn
 open FSharp.Json
 
-module Controller =
+module PairsControllers =
 
     let indexAction (ctx: HttpContext) =
         task {
