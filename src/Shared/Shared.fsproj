@@ -5,12 +5,19 @@
     <RootNamespace>Shared</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Database.fs" />
     <Compile Include="Models\PairsModel.fs" />
     <Compile Include="Models\UserWalletsModel.fs" />
     <Compile Include="Models\HistoryOrdersModel.fs" />
     <Compile Include="Models\BookOrdersModel.fs" />
     <Compile Include="Models\UsersModel.fs" />
     <Compile Include="Models\ProvidersModel.fs" />
+    <Compile Include="Repositories\UsersRepository.fs" />
+    <Compile Include="Repositories\UserWalletsRepository.fs" />
+    <Compile Include="Repositories\HistoryOrdersRepository.fs" />
+    <Compile Include="Repositories\BookOrdersRepository.fs" />
+    <Compile Include="Repositories\PairsRepository.fs" />
+    <Compile Include="Repositories\ProvidersRepository.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

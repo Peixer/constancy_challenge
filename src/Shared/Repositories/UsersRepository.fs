@@ -1,25 +1,26 @@
-namespace HistoryOrders
+namespace Shared.Users
 
-open Database
+open Shared.Database
 open System.Threading.Tasks
-open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
+open FSharp.Control.Tasks.ContextInsensitive
+open Shared
 
 module Database =
-    let getAll connectionString : Task<Result<Shared.HistoryOrders.HistoryOrder seq, exn>> =
+    let getAll connectionString : Task<Result<Shared.Users.User seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            return! query connection "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders" None
+            return! query connection "SELECT id, name, created, deleted FROM Users" None
         }
 
-    let getById connectionString id : Task<Result<Shared.HistoryOrders.HistoryOrder option, exn>> =
+    let getById connectionString id : Task<Result<Shared.Users.User option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             return!
                 querySingle
                     connection
-                    "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE id=@id"
+                    "SELECT id, name, created, deleted FROM Users WHERE id=@id"
                     (Some <| dict [ "id" => id ])
         }
 
@@ -30,7 +31,7 @@ module Database =
             return!
                 execute
                     connection
-                    "UPDATE HistoryOrders SET id = @id, idUser = @idUser, idPair = @idPair, quantity = @quantity, price = @price, side = @side, created = @created WHERE id=@id"
+                    "UPDATE Users SET id = @id, name = @name, created = @created, deleted = @deleted WHERE id=@id"
                     v
         }
 
@@ -41,12 +42,12 @@ module Database =
             return!
                 execute
                     connection
-                    "INSERT INTO HistoryOrders(id, idUser, idPair, quantity, price, side, created) VALUES (@id, @idUser, @idPair, @quantity, @price, @side, @created)"
+                    "INSERT INTO Users(id, name, created, deleted) VALUES (@id, @name, @created, @deleted)"
                     v
         }
 
     let delete connectionString id : Task<Result<int, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            return! execute connection "DELETE FROM HistoryOrders WHERE id=@id" (dict [ "id" => id ])
+            return! execute connection "DELETE FROM Users WHERE id=@id" (dict [ "id" => id ])
         }

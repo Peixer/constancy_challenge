@@ -1,6 +1,6 @@
-namespace Providers
+namespace Shared.Providers
 
-open Database
+open Shared.Database
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql

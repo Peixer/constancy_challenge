@@ -11,7 +11,7 @@ module Controller =
     let indexAction (ctx: HttpContext) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Database.getAll cnf.connectionString
+            let! result = Shared.Pairs.Database.getAll cnf.connectionString
 
             match result with
             | Ok result -> return result
@@ -21,7 +21,7 @@ module Controller =
     let showAction (ctx: HttpContext) (id: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Database.getById cnf.connectionString id
+            let! result = Shared.Pairs.Database.getById cnf.connectionString id
 
             match result with
             | Ok (Some result) -> return result
@@ -37,7 +37,7 @@ module Controller =
             if validateResult.IsEmpty then
 
                 let cnf = Controller.getConfig ctx
-                let! result = Database.insert cnf.connectionString input
+                let! result = Shared.Pairs.Database.insert cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess"
@@ -53,7 +53,7 @@ module Controller =
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
-                let! result = Database.update cnf.connectionString input
+                let! result = Shared.Pairs.Database.update cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess"
@@ -65,7 +65,7 @@ module Controller =
     let deleteAction (ctx: HttpContext) (id: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Database.delete cnf.connectionString id
+            let! result = Shared.Pairs.Database.delete cnf.connectionString id
 
             match result with
             | Ok _ -> return result

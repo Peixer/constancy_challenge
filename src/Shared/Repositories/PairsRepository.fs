@@ -1,26 +1,27 @@
-namespace Users
+namespace Shared.Pairs
 
-open Database
+open Shared.Database
 open System.Threading.Tasks
-open Npgsql
 open FSharp.Control.Tasks.ContextInsensitive
-open Shared
+open Npgsql
 
 module Database =
-    let getAll connectionString : Task<Result<Shared.Users.User seq, exn>> =
+    let getAll connectionString : Task<Result<Shared.Pairs.Pair seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            return! query connection "SELECT id, name, created, deleted FROM Users" None
+
+            return!
+                query connection "SELECT id, name, idProvider, status, transactionFee, created, deleted FROM Pairs" None
         }
 
-    let getById connectionString id : Task<Result<Shared.Users.User option, exn>> =
+    let getById connectionString id : Task<Result<Shared.Pairs.Pair option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             return!
                 querySingle
                     connection
-                    "SELECT id, name, created, deleted FROM Users WHERE id=@id"
+                    "SELECT id, name, idProvider, status, transactionFee, created, deleted FROM Pairs WHERE id=@id"
                     (Some <| dict [ "id" => id ])
         }
 
@@ -31,7 +32,7 @@ module Database =
             return!
                 execute
                     connection
-                    "UPDATE Users SET id = @id, name = @name, created = @created, deleted = @deleted WHERE id=@id"
+                    "UPDATE Pairs SET id = @id, name = @name, idProvider = @idProvider, status = @status, transactionFee = @transactionFee, created = @created, deleted = @deleted WHERE id=@id"
                     v
         }
 
@@ -42,12 +43,12 @@ module Database =
             return!
                 execute
                     connection
-                    "INSERT INTO Users(id, name, created, deleted) VALUES (@id, @name, @created, @deleted)"
+                    "INSERT INTO Pairs(id, name, idProvider, status, transactionFee, created, deleted) VALUES (@id, @name, @idProvider, @status, @transactionFee, @created, @deleted)"
                     v
         }
 
     let delete connectionString id : Task<Result<int, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            return! execute connection "DELETE FROM Users WHERE id=@id" (dict [ "id" => id ])
+            return! execute connection "DELETE FROM Pairs WHERE id=@id" (dict [ "id" => id ])
         }
