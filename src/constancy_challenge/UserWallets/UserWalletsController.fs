@@ -62,21 +62,10 @@ module Controller =
                 return Json.serialize validateResult
         }
 
-    let deleteAction (ctx: HttpContext) (id: string) =
-        task {
-            let cnf = Controller.getConfig ctx
-            let! result = Database.delete cnf.connectionString id
-
-            match result with
-            | Ok _ -> return result
-            | Error ex -> return raise ex
-        }
-
     let resource =
         controller {
             index indexAction
             show showAction
             create createAction
             update updateAction
-            delete deleteAction
         }

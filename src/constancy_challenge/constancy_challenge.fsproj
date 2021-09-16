@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>palladris_challenge</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Database.fs" />
