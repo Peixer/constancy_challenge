@@ -2,7 +2,7 @@ namespace Shared.Providers
 
 [<CLIMutable>]
 type Provider =
-    { id: string
+    { id: int
       name: string
       created: System.DateTime
       deleted: System.DateTime }

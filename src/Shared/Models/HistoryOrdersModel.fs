@@ -2,7 +2,7 @@ namespace Shared.HistoryOrders
 
 [<CLIMutable>]
 type HistoryOrder =
-    { id: string
+    { id: int
       idUser: string
       idPair: string
       quantity: float

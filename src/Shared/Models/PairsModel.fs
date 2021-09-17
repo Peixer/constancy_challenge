@@ -2,7 +2,7 @@ namespace Shared.Pairs
 
 [<CLIMutable>]
 type Pair =
-    { id: string
+    { id: int
       name: string
       idProvider: string
       status: int

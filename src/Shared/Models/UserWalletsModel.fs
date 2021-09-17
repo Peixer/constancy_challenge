@@ -2,7 +2,7 @@ namespace Shared.UserWallets
 
 [<CLIMutable>]
 type UserWallet =
-    { id: string
+    { id: int
       idUser: string
       idPair: string
       amount: float

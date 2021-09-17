@@ -2,7 +2,7 @@ namespace Shared.BookOrders
 
 [<CLIMutable>]
 type BookOrder =
-    { id: string
+    { id: int
       idUser: string
       idPair: string
       quantity: float

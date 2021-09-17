@@ -7,13 +7,13 @@ type CreateUserWallets() =
 
   override __.Up() =
     base.Execute(@"CREATE TABLE UserWallets(
-      id TEXT NOT NULL,
-      idUser TEXT NOT NULL,
-      idPair TEXT NOT NULL,
+      id SERIAL NOT NULL PRIMARY KEY,
+      idUser SERIAL NOT NULL,
+      idPair SERIAL NOT NULL,
       amount real NOT NULL,
       created timestamp NOT NULL,
       deleted timestamp NOT NULL
     )")
-
+               
   override __.Down() =
     base.Execute(@"DROP TABLE UserWallets")

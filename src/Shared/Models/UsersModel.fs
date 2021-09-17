@@ -2,7 +2,7 @@ namespace Shared.Users
 
 [<CLIMutable>]
 type User =
-    { id: string
+    { id: int
       name: string
       created: System.DateTime
       deleted: System.DateTime }

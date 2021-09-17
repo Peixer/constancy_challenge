@@ -7,9 +7,9 @@ type CreateBookOrders() =
 
   override __.Up() =
     base.Execute(@"CREATE TABLE BookOrders(
-      id TEXT NOT NULL,
-      idUser TEXT NOT NULL,
-      idPair TEXT NOT NULL,
+      id SERIAL NOT NULL PRIMARY KEY,
+      idUser SERIAL NOT NULL,
+      idPair SERIAL NOT NULL,
       quantity real NOT NULL,
       price real NOT NULL,
       status integer NOT NULL,
