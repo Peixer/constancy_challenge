@@ -12,7 +12,7 @@ type CreateUserWallets() =
       idPair SERIAL NOT NULL,
       amount real NOT NULL,
       created timestamp NOT NULL,
-      deleted timestamp NOT NULL
+      deleted timestamp
     )")
                
   override __.Down() =

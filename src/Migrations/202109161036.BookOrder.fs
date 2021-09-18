@@ -15,7 +15,7 @@ type CreateBookOrders() =
       status integer NOT NULL,
       side integer NOT NULL,
       created timestamp NOT NULL,
-      deleted timestamp NOT NULL
+      deleted timestamp
     )")
 
   override __.Down() =

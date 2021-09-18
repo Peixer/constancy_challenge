@@ -13,7 +13,7 @@ type CreatePairs() =
       status integer NOT NULL,
       transactionFee real NOT NULL,
       created timestamp NOT NULL,
-      deleted timestamp NOT NULL
+      deleted timestamp
     )")
 
   override __.Down() =

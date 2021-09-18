@@ -10,7 +10,7 @@ type CreateProviders() =
       id SERIAL NOT NULL PRIMARY KEY,
       name TEXT NOT NULL,
       created timestamp NOT NULL,
-      deleted timestamp NOT NULL
+      deleted timestamp
     )")
 
   override __.Down() =
