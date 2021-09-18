@@ -4,7 +4,6 @@ open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
 open Config
 open Saturn
-open FSharp.Json
 
 module PairsControllers =
 
@@ -29,13 +28,24 @@ module PairsControllers =
                 let! result = Shared.Pairs.Database.insert cnf.connectionString input idProvider
 
                 match result with
-                | Ok _ -> return "Sucess"
+                | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Json.serialize validateResult
+                let validateResultFormatted =
+                    validateResult
+                    |> Map.toSeq
+                    |> Seq.collect (fun (key, value) -> [ (key + ": " + value :> obj) ])
+                    |> List.ofSeq
+
+                let error =
+                    {| data = validateResultFormatted
+                       code = 422 |}
+
+                return error :> obj
+
         }
 
-    let deleteAction ctx (idProvider:string) id =
+    let deleteAction ctx (idProvider: string) id =
         task {
             let cnf = Controller.getConfig ctx
             let! result = Shared.Pairs.Database.delete cnf.connectionString idProvider id
