@@ -15,7 +15,23 @@ type Pair =
 module Validation =
     let validate v =
         let validators =
-            [ fun u -> if 0 = u.id then None else None ]
+            [ fun u ->
+                if String.IsNullOrEmpty u.name then
+                    Some("name", "Name shouldn't be empty")
+                else
+                    None
+
+              fun u ->
+                  if 0.0 = u.transactionFee then
+                      Some("transactionFee", "TransactionFee shouldn't be empty")
+                  else
+                      None
+
+              fun u ->
+                  if 0 = u.status then
+                      Some("status", "Status shouldn't be empty")
+                  else
+                      None ]
 
         validators
         |> List.fold
