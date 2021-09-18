@@ -8,28 +8,17 @@ open FSharp.Json
 
 module PairsControllers =
 
-    let indexAction (ctx: HttpContext) =
+    let indexAction (ctx: HttpContext) (idProvider: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.Pairs.Database.getAll cnf.connectionString
+            let! result = Shared.Pairs.Database.getAll cnf.connectionString idProvider
 
             match result with
             | Ok result -> return result
             | Error ex -> return raise ex
         }
 
-    let showAction (ctx: HttpContext) (id: string) =
-        task {
-            let cnf = Controller.getConfig ctx
-            let! result = Shared.Pairs.Database.getById cnf.connectionString id
-
-            match result with
-            | Ok (Some result) -> return result
-            | Ok None -> return! null
-            | Error ex -> return raise ex
-        }
-
-    let createAction (ctx: HttpContext) =
+    let createAction (ctx: HttpContext) (idProvider: string) =
         task {
             let! input = Controller.getModel<Shared.Pairs.Pair> ctx
             let validateResult = Shared.Pairs.Validation.validate input
@@ -37,7 +26,7 @@ module PairsControllers =
             if validateResult.IsEmpty then
 
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Pairs.Database.insert cnf.connectionString input
+                let! result = Shared.Pairs.Database.insert cnf.connectionString input idProvider
 
                 match result with
                 | Ok _ -> return "Sucess"
@@ -46,37 +35,19 @@ module PairsControllers =
                 return Json.serialize validateResult
         }
 
-    let updateAction (ctx: HttpContext) (id: string) =
-        task {
-            let! input = Controller.getModel<Shared.Pairs.Pair> ctx
-            let validateResult = Shared.Pairs.Validation.validate input
-
-            if validateResult.IsEmpty then
-                let cnf = Controller.getConfig ctx
-                let! result = Shared.Pairs.Database.update cnf.connectionString input
-
-                match result with
-                | Ok _ -> return "Sucess"
-                | Error ex -> return raise ex
-            else
-                return Json.serialize validateResult
-        }
-
-    let deleteAction (ctx: HttpContext) (id: string) =
+    let deleteAction ctx (idProvider:string) id =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.Pairs.Database.delete cnf.connectionString id
+            let! result = Shared.Pairs.Database.delete cnf.connectionString idProvider id
 
             match result with
             | Ok _ -> return result
             | Error ex -> return raise ex
         }
 
-    let resource userdId =
+    let resource idProvider =
         controller {
-            index indexAction
-            show showAction
-            create createAction
-            update updateAction
-            delete deleteAction
+            index (fun ctx -> indexAction ctx idProvider)
+            create (fun ctx -> createAction ctx idProvider)
+            delete (fun ctx -> deleteAction ctx idProvider)
         }

@@ -19,7 +19,7 @@ module Database =
             return!
                 querySingle
                     connection
-                    "SELECT id, name, created, deleted FROM Providers WHERE id=@id"
+                    "SELECT id, name, created, deleted FROM Providers WHERE id=@id::integer"
                     (Some <| dict [ "id" => id ])
         }
 

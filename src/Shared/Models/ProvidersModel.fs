@@ -11,7 +11,7 @@ module Validation =
     let validate v =
         let validators =
             [ fun u ->
-                  if isNull u.id then
+                  if 0 = u.id then
                       Some("id", "Id shouldn't be empty")
                   else
                       None ]

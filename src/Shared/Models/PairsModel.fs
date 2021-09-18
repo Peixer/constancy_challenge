@@ -1,23 +1,21 @@
 namespace Shared.Pairs
 
+open System
+
 [<CLIMutable>]
 type Pair =
     { id: int
       name: string
-      idProvider: string
+      idProvider: int
       status: int
       transactionFee: float
-      created: System.DateTime
-      deleted: System.DateTime }
+      created: DateTime
+      deleted: DateTime }
 
 module Validation =
     let validate v =
         let validators =
-            [ fun u ->
-                  if isNull u.id then
-                      Some("id", "Id shouldn't be empty")
-                  else
-                      None ]
+            [ fun u -> if 0 = u.id then None else None ]
 
         validators
         |> List.fold
