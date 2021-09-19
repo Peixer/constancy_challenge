@@ -72,7 +72,7 @@ module BookOrdersController =
             | Error ex -> return raise ex
         }
 
-    let resource userId =
+    let resource =
         controller {
             index indexAction
             show showAction

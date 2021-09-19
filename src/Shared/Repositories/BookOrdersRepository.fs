@@ -56,6 +56,7 @@ module Database =
             use connection = new NpgsqlConnection(connectionString)
             return! execute connection "DELETE FROM BookOrders WHERE id=@id" (dict [ "id" => id ])
         }
+
     let getAllByIdUser connectionString idUser : Task<Result<BookOrder seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
@@ -69,5 +70,19 @@ module Database =
                     v
         }
 
+    let getAllByIdProvider connectionString idProvider : Task<Result<BookOrder seq, exn>> =
+        task {
+            use connection = new NpgsqlConnection(connectionString)
 
+            let v =
+                (Some <| dict [ "idProvider" => idProvider ])
 
+            return!
+                query
+                    connection
+                    @"SELECT b.id, b.idUser, b.idPair, b.quantity, b.price, b.status, b.side, b.created FROM BookOrders b
+                    LEFT JOIN Pairs p ON b.idPair = p.id
+                    LEFT JOIN Providers pr ON p.idProvider = pr.id
+                    WHERE b.deleted is null"
+                    v
+        }

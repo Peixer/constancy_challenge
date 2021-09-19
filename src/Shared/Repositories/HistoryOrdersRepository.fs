@@ -62,3 +62,17 @@ module Database =
                     "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE idUser=@idUser::integer"
                     v
         }
+
+    let getAllByIdProvider connectionString idProvider : Task<Result<HistoryOrder seq, exn>> =
+        task {
+            use connection = new NpgsqlConnection(connectionString)
+            let v = (Some <| dict [ "idProvider" => idProvider ])
+
+            return!
+                query
+                    connection
+                    @"SELECT h.id, h.idUser, h.idPair, h.quantity, h.price, h.side, h.created FROM HistoryOrders h
+                    LEFT JOIN Pairs p ON h.idPair = p.id
+                    LEFT JOIN Providers pr ON p.idProvider = pr.id"
+                    v
+        }
