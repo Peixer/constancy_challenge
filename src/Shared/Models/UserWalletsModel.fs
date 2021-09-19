@@ -3,8 +3,8 @@ namespace Shared.UserWallets
 [<CLIMutable>]
 type UserWallet =
     { id: int
-      idUser: string
-      idPair: string
+      idUser: int
+      idPair: int
       amount: float
       created: System.DateTime
       deleted: System.DateTime }
@@ -13,8 +13,14 @@ module Validation =
     let validate v =
         let validators =
             [ fun u ->
-                  if isNull u.id then
-                      Some("id", "Id shouldn't be empty")
+                if 0 = u.idPair then
+                    Some("idPair", "IdPair shouldn't be empty")
+                else
+                    None
+
+              fun u ->
+                  if 0.0 = u.amount then
+                      Some("amount", "Amount shouldn't be empty")
                   else
                       None ]
 

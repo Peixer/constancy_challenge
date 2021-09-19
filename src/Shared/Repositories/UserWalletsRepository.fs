@@ -1,48 +1,56 @@
 namespace Shared.UserWallets
 
+open System
 open Shared.Database
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
 
 module Database =
-    let getAll connectionString : Task<Result<Shared.UserWallets.UserWallet seq, exn>> =
+    let getAllByIdUser connectionString idUser : Task<Result<Shared.UserWallets.UserWallet seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            return! query connection "SELECT id, idUser, idPair, amount, created, deleted FROM UserWallets" None
-        }
-
-    let getById connectionString id : Task<Result<Shared.UserWallets.UserWallet option, exn>> =
-        task {
-            use connection = new NpgsqlConnection(connectionString)
+            let v = (Some <| dict [ "idUser" => idUser ])
 
             return!
-                querySingle
+                query
                     connection
-                    "SELECT id, idUser, idPair, amount, created, deleted FROM UserWallets WHERE id=@id"
-                    (Some <| dict [ "id" => id ])
+                    "SELECT id, idUser, idPair, amount, created, deleted FROM UserWallets WHERE deleted is null and idUser=@idUser::integer"
+                    v
         }
 
-    let update connectionString v : Task<Result<int, exn>> =
+    let update connectionString v (id: string) : Task<Result<int, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
+
+            let value =
+                { id = int id
+                  idUser = 0
+                  idPair = v.idPair
+                  amount = v.amount
+                  created = DateTime.Now
+                  deleted = DateTime.Now }
+
+            return! execute connection "UPDATE UserWallets SET idPair = @idPair, amount = @amount WHERE id = @id" value
+        }
+
+    let insert connectionString v (idUser: string) : Task<Result<int, exn>> =
+        task {
+            use connection = new NpgsqlConnection(connectionString)
+
+            let value =
+                { id = 0
+                  idUser = idUser |> int
+                  idPair = v.idPair
+                  amount = v.amount
+                  created = DateTime.Now
+                  deleted = DateTime.Now }
 
             return!
                 execute
                     connection
-                    "UPDATE UserWallets SET id = @id, idUser = @idUser, idPair = @idPair, amount = @amount, created = @created, deleted = @deleted WHERE id=@id"
-                    v
-        }
-
-    let insert connectionString v : Task<Result<int, exn>> =
-        task {
-            use connection = new NpgsqlConnection(connectionString)
-
-            return!
-                execute
-                    connection
-                    "INSERT INTO UserWallets(id, idUser, idPair, amount, created, deleted) VALUES (@id, @idUser, @idPair, @amount, @created, @deleted)"
-                    v
+                    "INSERT INTO UserWallets(idUser, idPair, amount, created) VALUES (@idUser, @idPair, @amount, @created)"
+                    value
         }
 
     let delete connectionString id : Task<Result<int, exn>> =
