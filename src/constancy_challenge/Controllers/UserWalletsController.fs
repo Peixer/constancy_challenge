@@ -34,17 +34,7 @@ module UserWalletsController =
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                let validateResultFormatted =
-                    validateResult
-                    |> Map.toSeq
-                    |> Seq.collect (fun (key, value) -> [ (key + ": " + value :> obj) ])
-                    |> List.ofSeq
-
-                let error =
-                    {| data = validateResultFormatted
-                       code = 422 |}
-
-                return error :> obj
+                return Shared.Validation.Validate.formatResult validateResult :> obj
         }
 
     let updateAction (ctx: HttpContext) (id: string) =
@@ -62,17 +52,7 @@ module UserWalletsController =
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                let validateResultFormatted =
-                    validateResult
-                    |> Map.toSeq
-                    |> Seq.collect (fun (key, value) -> [ (key + ": " + value :> obj) ])
-                    |> List.ofSeq
-
-                let error =
-                    {| data = validateResultFormatted
-                       code = 422 |}
-
-                return error :> obj
+                return Shared.Validation.Validate.formatResult validateResult :> obj
         }
 
     let resource idUser =

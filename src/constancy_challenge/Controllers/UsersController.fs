@@ -18,17 +18,6 @@ module UsersController =
             | Error ex -> return raise ex
         }
 
-    let showAction (ctx: HttpContext) (id: string) =
-        task {
-            let cnf = Controller.getConfig ctx
-            let! result = Shared.Users.Database.getById cnf.connectionString id
-
-            match result with
-            | Ok (Some result) -> return result
-            | Ok None -> return! null
-            | Error ex -> return raise ex
-        }
-
     let createAction (ctx: HttpContext) =
         task {
             let! input = Controller.getModel<Shared.Users.User> ctx
@@ -40,10 +29,10 @@ module UsersController =
                 let! result = Shared.Users.Database.insert cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess"
+                | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Json.serialize validateResult
+                return Shared.Validation.Validate.formatResult validateResult :> obj
         }
 
     let updateAction (ctx: HttpContext) (id: string) =
@@ -56,10 +45,10 @@ module UsersController =
                 let! result = Shared.Users.Database.update cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess"
+                | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Json.serialize validateResult
+                return Shared.Validation.Validate.formatResult validateResult :> obj
         }
 
     let deleteAction (ctx: HttpContext) (id: string) =
@@ -79,7 +68,6 @@ module UsersController =
             subController "/histories" HistoryOrdersController.resource   
             
             index indexAction
-            show showAction
             create createAction
             update updateAction
             delete deleteAction

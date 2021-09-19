@@ -18,6 +18,7 @@
     <Compile Include="Repositories\BookOrdersRepository.fs" />
     <Compile Include="Repositories\PairsRepository.fs" />
     <Compile Include="Repositories\ProvidersRepository.fs" />
+    <Compile Include="Validation\Validate.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

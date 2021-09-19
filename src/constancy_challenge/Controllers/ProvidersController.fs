@@ -42,10 +42,10 @@ module ProvidersController =
                 let! result = Shared.Providers.Database.insert cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess"
+                | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Json.serialize validateResult
+                return Shared.Validation.Validate.formatResult validateResult :> obj
         }
 
     let updateAction (ctx: HttpContext) (id: string) =
@@ -60,10 +60,10 @@ module ProvidersController =
                 let! result = Shared.Providers.Database.update cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess"
+                | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Json.serialize validateResult
+                return Shared.Validation.Validate.formatResult validateResult :> obj
         }
 
     let deleteAction (ctx: HttpContext) (id: string) =
