@@ -61,12 +61,40 @@ module UsersController =
             | Error ex -> return raise ex
         }
 
+
+    let getOrders (ctx: HttpContext) (idUser: string) =
+        task {
+            let cnf = Controller.getConfig ctx
+            let! result = Shared.BookOrders.Database.getAllByIdUser cnf.connectionString idUser
+
+            match result with
+            | Ok result -> return result
+            | Error ex -> return raise ex
+        }
+
+
+    let getHistories (ctx: HttpContext) (idUser: string) =
+        task {
+            let cnf = Controller.getConfig ctx
+            let! result = Shared.HistoryOrders.Database.getAllByIdUser cnf.connectionString idUser
+
+            match result with
+            | Ok result -> return result
+            | Error ex -> return raise ex
+        }
+        
+    let ordersController idUser =
+        controller { index (fun ctx -> getOrders ctx idUser) }
+
+    let historiesController idUser =
+        controller { index (fun ctx -> getHistories ctx idUser) }
+
     let resource =
         controller {
             subController "/wallets" UserWalletsController.resource
-            subController "/orders" BookOrdersController.resource
-            subController "/histories" HistoryOrdersController.resource   
-            
+            subController "/orders" ordersController
+            subController "/histories" historiesController
+
             index indexAction
             create createAction
             update updateAction

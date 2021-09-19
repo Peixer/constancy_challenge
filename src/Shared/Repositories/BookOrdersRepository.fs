@@ -1,5 +1,6 @@
 namespace Shared.BookOrders
 
+open System
 open Shared.Database
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
@@ -55,3 +56,18 @@ module Database =
             use connection = new NpgsqlConnection(connectionString)
             return! execute connection "DELETE FROM BookOrders WHERE id=@id" (dict [ "id" => id ])
         }
+    let getAllByIdUser connectionString idUser : Task<Result<BookOrder seq, exn>> =
+        task {
+            use connection = new NpgsqlConnection(connectionString)
+            let v = (Some <| dict [ "idUser" => idUser ])
+
+
+            return!
+                query
+                    connection
+                    "SELECT id, idUser, idPair, quantity, price, status, side, created, deleted FROM BookOrders WHERE deleted is null and idUser=@idUser::integer"
+                    v
+        }
+
+
+

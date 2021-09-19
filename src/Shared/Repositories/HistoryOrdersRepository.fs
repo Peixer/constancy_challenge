@@ -50,3 +50,15 @@ module Database =
             use connection = new NpgsqlConnection(connectionString)
             return! execute connection "DELETE FROM HistoryOrders WHERE id=@id" (dict [ "id" => id ])
         }
+
+    let getAllByIdUser connectionString idUser : Task<Result<HistoryOrder seq, exn>> =
+        task {
+            use connection = new NpgsqlConnection(connectionString)
+            let v = (Some <| dict [ "idUser" => idUser ])
+
+            return!
+                query
+                    connection
+                    "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE idUser=@idUser::integer"
+                    v
+        }
