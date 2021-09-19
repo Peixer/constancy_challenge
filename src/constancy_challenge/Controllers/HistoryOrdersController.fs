@@ -4,7 +4,6 @@ open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
 open Config
 open Saturn
-open FSharp.Json
 
 module HistoryOrdersController =
 
@@ -32,7 +31,9 @@ module HistoryOrdersController =
     let createAction (ctx: HttpContext) =
         task {
             let! input = Controller.getModel<Shared.HistoryOrders.HistoryOrder> ctx
-            let validateResult = Shared.HistoryOrders.Validation.validate input
+
+            let validateResult =
+                Shared.HistoryOrders.Validation.validate input
 
             if validateResult.IsEmpty then
 
@@ -40,43 +41,15 @@ module HistoryOrdersController =
                 let! result = Shared.HistoryOrders.Database.insert cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess"
+                | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Json.serialize validateResult
+                return Shared.Validation.Validate.formatResult validateResult :> obj
         }
 
-    let updateAction (ctx: HttpContext) (id: string) =
-        task {
-            let! input = Controller.getModel<Shared.HistoryOrders.HistoryOrder> ctx
-            let validateResult = Shared.HistoryOrders.Validation.validate input
-
-            if validateResult.IsEmpty then
-                let cnf = Controller.getConfig ctx
-                let! result = Shared.HistoryOrders.Database.update cnf.connectionString input
-
-                match result with
-                | Ok _ -> return "Sucess"
-                | Error ex -> return raise ex
-            else
-                return Json.serialize validateResult
-        }
-
-    let deleteAction (ctx: HttpContext) (id: string) =
-        task {
-            let cnf = Controller.getConfig ctx
-            let! result = Shared.HistoryOrders.Database.delete cnf.connectionString id
-
-            match result with
-            | Ok _ -> return result
-            | Error ex -> return raise ex
-        }
-
-    let resource userId =
+    let resource =
         controller {
             index indexAction
             show showAction
             create createAction
-            update updateAction
-            delete deleteAction
         }

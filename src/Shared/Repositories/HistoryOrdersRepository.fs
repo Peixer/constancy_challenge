@@ -1,54 +1,47 @@
 namespace Shared.HistoryOrders
 
+open System
 open Shared.Database
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
 
 module Database =
-    let getAll connectionString : Task<Result<Shared.HistoryOrders.HistoryOrder seq, exn>> =
+    let getAll connectionString : Task<Result<HistoryOrder seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
             return! query connection "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders" None
         }
 
-    let getById connectionString id : Task<Result<Shared.HistoryOrders.HistoryOrder option, exn>> =
+    let getById connectionString id : Task<Result<HistoryOrder option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             return!
                 querySingle
                     connection
-                    "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE id=@id"
+                    "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE id = @id::integer"
                     (Some <| dict [ "id" => id ])
-        }
-
-    let update connectionString v : Task<Result<int, exn>> =
-        task {
-            use connection = new NpgsqlConnection(connectionString)
-
-            return!
-                execute
-                    connection
-                    "UPDATE HistoryOrders SET id = @id, idUser = @idUser, idPair = @idPair, quantity = @quantity, price = @price, side = @side, created = @created WHERE id=@id"
-                    v
         }
 
     let insert connectionString v : Task<Result<int, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
+            let value =
+                { id = 0
+                  idUser = v.idUser
+                  idPair = v.idPair
+                  quantity = v.quantity
+                  price = v.price
+                  side = v.side
+                  created = DateTime.Now }
+
             return!
                 execute
                     connection
-                    "INSERT INTO HistoryOrders(id, idUser, idPair, quantity, price, side, created) VALUES (@id, @idUser, @idPair, @quantity, @price, @side, @created)"
-                    v
-        }
-
-    let delete connectionString id : Task<Result<int, exn>> =
-        task {
-            use connection = new NpgsqlConnection(connectionString)
-            return! execute connection "DELETE FROM HistoryOrders WHERE id=@id" (dict [ "id" => id ])
+                    "INSERT INTO HistoryOrders(idUser, idPair, quantity, price, side, created) VALUES (@idUser, @idPair, @quantity, @price, @side, @created)"
+                    value
         }
 
     let getAllByIdUser connectionString idUser : Task<Result<HistoryOrder seq, exn>> =
@@ -66,7 +59,9 @@ module Database =
     let getAllByIdProvider connectionString idProvider : Task<Result<HistoryOrder seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            let v = (Some <| dict [ "idProvider" => idProvider ])
+
+            let v =
+                (Some <| dict [ "idProvider" => idProvider ])
 
             return!
                 query
