@@ -7,54 +7,43 @@ open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
 
 module Database =
-    let getAll connectionString : Task<Result<Shared.BookOrders.BookOrder seq, exn>> =
+    let getAll connectionString : Task<Result<BookOrder seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             return!
                 query
                     connection
-                    "SELECT id, idUser, idPair, quantity, price, status, side, created, deleted FROM BookOrders"
+                    "SELECT id, idUser, idPair, quantity, price, status, side, created, deleted FROM BookOrders WHERE deleted is null"
                     None
-        }
-
-    let getById connectionString id : Task<Result<Shared.BookOrders.BookOrder option, exn>> =
-        task {
-            use connection = new NpgsqlConnection(connectionString)
-
-            return!
-                querySingle
-                    connection
-                    "SELECT id, idUser, idPair, quantity, price, status, side, created, deleted FROM BookOrders WHERE id=@id"
-                    (Some <| dict [ "id" => id ])
-        }
-
-    let update connectionString v : Task<Result<int, exn>> =
-        task {
-            use connection = new NpgsqlConnection(connectionString)
-
-            return!
-                execute
-                    connection
-                    "UPDATE BookOrders SET id = @id, idUser = @idUser, idPair = @idPair, quantity = @quantity, price = @price, status = @status, side = @side, created = @created, deleted = @deleted WHERE id=@id"
-                    v
         }
 
     let insert connectionString v : Task<Result<int, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
+            let value =
+                { id = 0
+                  idUser = v.idUser
+                  idPair = v.idPair
+                  quantity = v.quantity
+                  price = v.price
+                  status = 0
+                  side = v.side
+                  created = DateTime.Now
+                  deleted = DateTime.Now  }
+                
             return!
                 execute
                     connection
-                    "INSERT INTO BookOrders(id, idUser, idPair, quantity, price, status, side, created, deleted) VALUES (@id, @idUser, @idPair, @quantity, @price, @status, @side, @created, @deleted)"
-                    v
+                    "INSERT INTO BookOrders(idUser, idPair, quantity, price, status, side, created) VALUES (@idUser, @idPair, @quantity, @price, @status, @side, @created)"
+                    value
         }
 
     let delete connectionString id : Task<Result<int, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            return! execute connection "DELETE FROM BookOrders WHERE id=@id" (dict [ "id" => id ])
+            return! execute connection "DELETE FROM BookOrders WHERE id = @id::integer" (dict [ "id" => id ])
         }
 
     let getAllByIdUser connectionString idUser : Task<Result<BookOrder seq, exn>> =

@@ -18,17 +18,6 @@ module BookOrdersController =
             | Error ex -> return raise ex
         }
 
-    let showAction (ctx: HttpContext) (id: string) =
-        task {
-            let cnf = Controller.getConfig ctx
-            let! result = Shared.BookOrders.Database.getById cnf.connectionString id
-
-            match result with
-            | Ok (Some result) -> return result
-            | Ok None -> return! null
-            | Error ex -> return raise ex
-        }
-
     let createAction (ctx: HttpContext) =
         task {
             let! input = Controller.getModel<Shared.BookOrders.BookOrder> ctx
@@ -40,26 +29,10 @@ module BookOrdersController =
                 let! result = Shared.BookOrders.Database.insert cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess"
+                | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Json.serialize validateResult
-        }
-
-    let updateAction (ctx: HttpContext) (id: string) =
-        task {
-            let! input = Controller.getModel<Shared.BookOrders.BookOrder> ctx
-            let validateResult = Shared.BookOrders.Validation.validate input
-
-            if validateResult.IsEmpty then
-                let cnf = Controller.getConfig ctx
-                let! result = Shared.BookOrders.Database.update cnf.connectionString input
-
-                match result with
-                | Ok _ -> return "Sucess"
-                | Error ex -> return raise ex
-            else
-                return Json.serialize validateResult
+                return Shared.Validation.Validate.formatResult validateResult :> obj
         }
 
     let deleteAction (ctx: HttpContext) (id: string) =
@@ -75,8 +48,6 @@ module BookOrdersController =
     let resource =
         controller {
             index indexAction
-            show showAction
             create createAction
-            update updateAction
             delete deleteAction
         }
