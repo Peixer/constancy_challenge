@@ -4,7 +4,6 @@ open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
 open Config
 open Saturn
-open FSharp.Json
 
 module ProvidersController =
 
@@ -15,17 +14,6 @@ module ProvidersController =
 
             match result with
             | Ok result -> return result
-            | Error ex -> return raise ex
-        }
-
-    let showAction (ctx: HttpContext) (id: string) =
-        task {
-            let cnf = Controller.getConfig ctx
-            let! result = Shared.Providers.Database.getById cnf.connectionString id
-
-            match result with
-            | Ok (Some result) -> return result
-            | Ok None -> return! null
             | Error ex -> return raise ex
         }
 
@@ -57,7 +45,7 @@ module ProvidersController =
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Providers.Database.update cnf.connectionString input
+                let! result = Shared.Providers.Database.update cnf.connectionString input id
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
@@ -82,10 +70,9 @@ module ProvidersController =
 
             subController "/pairs" PairsControllers.resource
             subController "/orders" BookOrdersController.resource
-            subController "/histories" HistoryOrdersController.resource   
-            
+            subController "/histories" HistoryOrdersController.resource
+
             index indexAction
-            show showAction
             create createAction
             update updateAction
             delete deleteAction

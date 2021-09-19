@@ -1,5 +1,7 @@
 namespace Shared.Providers
 
+open System
+
 [<CLIMutable>]
 type Provider =
     { id: int
@@ -11,8 +13,8 @@ module Validation =
     let validate v =
         let validators =
             [ fun u ->
-                  if 0 = u.id then
-                      Some("id", "Id shouldn't be empty")
+                  if String.IsNullOrEmpty u.name then
+                      Some("name", "Name shouldn't be empty")
                   else
                       None ]
 
