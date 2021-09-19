@@ -42,7 +42,7 @@ module UsersController =
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Users.Database.update cnf.connectionString input
+                let! result = Shared.Users.Database.update cnf.connectionString input id
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
