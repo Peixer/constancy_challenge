@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "9630d3dc-674f-4a93-9032-9cefccfcddfa",
+		"name": "BrickAbode",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Wallets",
+					"item": [
+						{
+							"name": "POST - Wallet",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 0.01,\n    \"idPair\":3\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8085/api/users/11/wallets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"api",
+										"users",
+										"11",
+										"wallets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Wallet",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8085/api/users/11/wallets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"api",
+										"users",
+										"11",
+										"wallets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT - Wallet",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 0.4,\n    \"idPair\":1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8085/api/users/11/wallets/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"api",
+										"users",
+										"11",
+										"wallets",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST - Users",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Teste22\",\n    \"id\":11\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8085/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Providers",
+			"item": [
+				{
+					"name": "Pairs",
+					"item": [
+						{
+							"name": "POST - Pairs",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"BNB/USD\",\n    \"status\":1,\n    \"transactionFee\":\"0.001\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8085/api/providers/1/pairs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"api",
+										"providers",
+										"1",
+										"pairs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Pairs",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8085/api/providers/1/pairs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"api",
+										"providers",
+										"1",
+										"pairs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE - Pairs",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/api/providers/1/pairs/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"api",
+										"providers",
+										"1",
+										"pairs",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET - Providers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8085/api/providers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST - Providers",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Binance\",\n    \"id\":1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/api/providers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
