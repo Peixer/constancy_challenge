@@ -4,11 +4,11 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2364C03F-7BCF-4E5A-9720-95991959E582}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "constancy_challenge", "src\constancy_challenge\constancy_challenge.fsproj", "{EF178058-7006-4ED9-8268-912C3638A81C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebApp", "src\WebApp\WebApp.fsproj", "{EF178058-7006-4ED9-8268-912C3638A81C}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Migrations", "src\Migrations\Migrations.fsproj", "{99166CAE-99E9-4F34-A421-48C69C84CB4C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "src\Shared\Shared.fsproj", "{13E7170E-0916-4484-A082-A62E0D31907C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core", "src\Core\Core.fsproj", "{13E7170E-0916-4484-A082-A62E0D31907C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

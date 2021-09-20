@@ -11,7 +11,7 @@ module UsersController =
     let indexAction (ctx: HttpContext) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.Users.Database.getAll cnf.connectionString
+            let! result = Core.Users.Database.getAll cnf.connectionString
 
             match result with
             | Ok result -> return result
@@ -20,41 +20,41 @@ module UsersController =
 
     let createAction (ctx: HttpContext) =
         task {
-            let! input = Controller.getModel<Shared.Users.User> ctx
-            let validateResult = Shared.Users.Validation.validate input
+            let! input = Controller.getModel<Core.Users.User> ctx
+            let validateResult = Core.Users.Validation.validate input
 
             if validateResult.IsEmpty then
 
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Users.Database.insert cnf.connectionString input
+                let! result = Core.Users.Database.insert cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Shared.Validation.Validate.formatResult validateResult :> obj
+                return Core.Validation.Validate.formatResult validateResult :> obj
         }
 
     let updateAction (ctx: HttpContext) (id: string) =
         task {
-            let! input = Controller.getModel<Shared.Users.User> ctx
-            let validateResult = Shared.Users.Validation.validate input
+            let! input = Controller.getModel<Core.Users.User> ctx
+            let validateResult = Core.Users.Validation.validate input
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Users.Database.update cnf.connectionString input id
+                let! result = Core.Users.Database.update cnf.connectionString input id
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Shared.Validation.Validate.formatResult validateResult :> obj
+                return Core.Validation.Validate.formatResult validateResult :> obj
         }
 
     let deleteAction (ctx: HttpContext) (id: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.Users.Database.delete cnf.connectionString id
+            let! result = Core.Users.Database.delete cnf.connectionString id
 
             match result with
             | Ok _ -> return result
@@ -65,7 +65,7 @@ module UsersController =
     let getOrders (ctx: HttpContext) (idUser: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.BookOrders.Database.getAllByIdUser cnf.connectionString idUser
+            let! result = Core.BookOrders.Database.getAllByIdUser cnf.connectionString idUser
 
             match result with
             | Ok result -> return result
@@ -76,7 +76,7 @@ module UsersController =
     let getHistories (ctx: HttpContext) (idUser: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.HistoryOrders.Database.getAllByIdUser cnf.connectionString idUser
+            let! result = Core.HistoryOrders.Database.getAllByIdUser cnf.connectionString idUser
 
             match result with
             | Ok result -> return result

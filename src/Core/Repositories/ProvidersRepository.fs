@@ -1,13 +1,13 @@
-namespace Shared.Providers
+namespace Core.Providers
 
 open System
-open Shared.Database
+open Core.Database
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
 
 module Database =
-    let getAll connectionString : Task<Result<Shared.Providers.Provider seq, exn>> =
+    let getAll connectionString : Task<Result<Core.Providers.Provider seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
             return! query connection "SELECT id, name, created, deleted FROM Providers WHERE deleted is null" None

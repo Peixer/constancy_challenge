@@ -1,4 +1,4 @@
-namespace Shared.BookOrders
+namespace Core.BookOrders
 
 [<CLIMutable>]
 type BookOrder =

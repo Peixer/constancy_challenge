@@ -1,11 +1,11 @@
-namespace Shared.UserWallets
+namespace Core.Providers
+
+open System
 
 [<CLIMutable>]
-type UserWallet =
+type Provider =
     { id: int
-      idUser: int
-      idPair: int
-      amount: float
+      name: string
       created: System.DateTime
       deleted: System.DateTime }
 
@@ -13,14 +13,8 @@ module Validation =
     let validate v =
         let validators =
             [ fun u ->
-                if 0 = u.idPair then
-                    Some("idPair", "IdPair shouldn't be empty")
-                else
-                    None
-
-              fun u ->
-                  if 0.0 = u.amount then
-                      Some("amount", "Amount shouldn't be empty")
+                  if String.IsNullOrEmpty u.name then
+                      Some("name", "Name shouldn't be empty")
                   else
                       None ]
 

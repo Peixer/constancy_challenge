@@ -1,4 +1,4 @@
-namespace Shared.Users
+namespace Core.Users
 
 open System
 

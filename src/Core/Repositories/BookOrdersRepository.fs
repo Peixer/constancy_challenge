@@ -1,7 +1,7 @@
-namespace Shared.BookOrders
+namespace Core.BookOrders
 
 open System
-open Shared.Database
+open Core.Database
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql

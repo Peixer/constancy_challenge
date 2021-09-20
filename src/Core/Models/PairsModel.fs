@@ -1,4 +1,4 @@
-namespace Shared.Pairs
+namespace Core.Pairs
 
 open System
 

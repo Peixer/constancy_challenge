@@ -1,13 +1,13 @@
-namespace Shared.UserWallets
+namespace Core.UserWallets
 
 open System
-open Shared.Database
+open Core.Database
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
 
 module Database =
-    let getAllByIdUser connectionString idUser : Task<Result<Shared.UserWallets.UserWallet seq, exn>> =
+    let getAllByIdUser connectionString idUser : Task<Result<Core.UserWallets.UserWallet seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
             let v = (Some <| dict [ "idUser" => idUser ])

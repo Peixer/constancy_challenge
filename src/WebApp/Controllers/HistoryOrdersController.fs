@@ -10,7 +10,7 @@ module HistoryOrdersController =
     let indexAction (ctx: HttpContext) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.HistoryOrders.Database.getAll cnf.connectionString
+            let! result = Core.HistoryOrders.Database.getAll cnf.connectionString
 
             match result with
             | Ok result -> return result
@@ -20,7 +20,7 @@ module HistoryOrdersController =
     let showAction (ctx: HttpContext) (id: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.HistoryOrders.Database.getById cnf.connectionString id
+            let! result = Core.HistoryOrders.Database.getById cnf.connectionString id
 
             match result with
             | Ok (Some result) -> return result
@@ -30,21 +30,21 @@ module HistoryOrdersController =
 
     let createAction (ctx: HttpContext) =
         task {
-            let! input = Controller.getModel<Shared.HistoryOrders.HistoryOrder> ctx
+            let! input = Controller.getModel<Core.HistoryOrders.HistoryOrder> ctx
 
             let validateResult =
-                Shared.HistoryOrders.Validation.validate input
+                Core.HistoryOrders.Validation.validate input
 
             if validateResult.IsEmpty then
 
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.HistoryOrders.Database.insert cnf.connectionString input
+                let! result = Core.HistoryOrders.Database.insert cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Shared.Validation.Validate.formatResult validateResult :> obj
+                return Core.Validation.Validate.formatResult validateResult :> obj
         }
 
     let resource =

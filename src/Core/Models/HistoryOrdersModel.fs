@@ -1,4 +1,4 @@
-namespace Shared.HistoryOrders
+namespace Core.HistoryOrders
 
 [<CLIMutable>]
 type HistoryOrder =

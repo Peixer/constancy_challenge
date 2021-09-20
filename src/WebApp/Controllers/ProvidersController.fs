@@ -10,7 +10,7 @@ module ProvidersController =
     let indexAction (ctx: HttpContext) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.Providers.Database.getAll cnf.connectionString
+            let! result = Core.Providers.Database.getAll cnf.connectionString
 
             match result with
             | Ok result -> return result
@@ -19,45 +19,45 @@ module ProvidersController =
 
     let createAction (ctx: HttpContext) =
         task {
-            let! input = Controller.getModel<Shared.Providers.Provider> ctx
+            let! input = Controller.getModel<Core.Providers.Provider> ctx
 
             let validateResult =
-                Shared.Providers.Validation.validate input
+                Core.Providers.Validation.validate input
 
             if validateResult.IsEmpty then
 
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Providers.Database.insert cnf.connectionString input
+                let! result = Core.Providers.Database.insert cnf.connectionString input
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Shared.Validation.Validate.formatResult validateResult :> obj
+                return Core.Validation.Validate.formatResult validateResult :> obj
         }
 
     let updateAction (ctx: HttpContext) (id: string) =
         task {
-            let! input = Controller.getModel<Shared.Providers.Provider> ctx
+            let! input = Controller.getModel<Core.Providers.Provider> ctx
 
             let validateResult =
-                Shared.Providers.Validation.validate input
+                Core.Providers.Validation.validate input
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.Providers.Database.update cnf.connectionString input id
+                let! result = Core.Providers.Database.update cnf.connectionString input id
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Shared.Validation.Validate.formatResult validateResult :> obj
+                return Core.Validation.Validate.formatResult validateResult :> obj
         }
 
     let deleteAction (ctx: HttpContext) (id: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.Providers.Database.delete cnf.connectionString id
+            let! result = Core.Providers.Database.delete cnf.connectionString id
 
             match result with
             | Ok _ -> return result
@@ -69,7 +69,7 @@ module ProvidersController =
     let getOrders (ctx: HttpContext) (idProvider: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.BookOrders.Database.getAllByIdProvider cnf.connectionString idProvider
+            let! result = Core.BookOrders.Database.getAllByIdProvider cnf.connectionString idProvider
 
             match result with
             | Ok result -> return result
@@ -80,7 +80,7 @@ module ProvidersController =
     let getHistories (ctx: HttpContext) (idProvider: string) =
         task {
             let cnf = Controller.getConfig ctx
-            let! result = Shared.HistoryOrders.Database.getAllByIdProvider cnf.connectionString idProvider
+            let! result = Core.HistoryOrders.Database.getAllByIdProvider cnf.connectionString idProvider
 
             match result with
             | Ok result -> return result

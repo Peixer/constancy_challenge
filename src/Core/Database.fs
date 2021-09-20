@@ -1,4 +1,4 @@
-module Shared.Database
+module Core.Database
 
 open Dapper
 open System.Data.Common

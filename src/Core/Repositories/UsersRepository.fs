@@ -1,7 +1,7 @@
-namespace Shared.Users
+namespace Core.Users
 
 open System
-open Shared.Database
+open Core.Database
 open System.Threading.Tasks
 open Npgsql
 open FSharp.Control.Tasks.ContextInsensitive

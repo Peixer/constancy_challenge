@@ -11,7 +11,7 @@ module UserWalletsController =
         task {
             let cnf = Controller.getConfig ctx
 
-            let! result = Shared.UserWallets.Database.getAllByIdUser cnf.connectionString idUser
+            let! result = Core.UserWallets.Database.getAllByIdUser cnf.connectionString idUser
 
             match result with
             | Ok result -> return result
@@ -20,39 +20,39 @@ module UserWalletsController =
 
     let createAction (ctx: HttpContext) (idUser: string) =
         task {
-            let! input = Controller.getModel<Shared.UserWallets.UserWallet> ctx
+            let! input = Controller.getModel<Core.UserWallets.UserWallet> ctx
 
             let validateResult =
-                Shared.UserWallets.Validation.validate input
+                Core.UserWallets.Validation.validate input
 
             if validateResult.IsEmpty then
 
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.UserWallets.Database.insert cnf.connectionString input idUser
+                let! result = Core.UserWallets.Database.insert cnf.connectionString input idUser
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Shared.Validation.Validate.formatResult validateResult :> obj
+                return Core.Validation.Validate.formatResult validateResult :> obj
         }
 
     let updateAction (ctx: HttpContext) (id: string) =
         task {
-            let! input = Controller.getModel<Shared.UserWallets.UserWallet> ctx
+            let! input = Controller.getModel<Core.UserWallets.UserWallet> ctx
 
             let validateResult =
-                Shared.UserWallets.Validation.validate input
+                Core.UserWallets.Validation.validate input
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
-                let! result = Shared.UserWallets.Database.update cnf.connectionString input id
+                let! result = Core.UserWallets.Database.update cnf.connectionString input id
 
                 match result with
                 | Ok _ -> return "Sucess" :> obj
                 | Error ex -> return raise ex
             else
-                return Shared.Validation.Validate.formatResult validateResult :> obj
+                return Core.Validation.Validate.formatResult validateResult :> obj
         }
 
     let resource idUser =
