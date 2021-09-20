@@ -13,7 +13,9 @@ The purpose of the challenge was to create an API for broker, where can access u
 - Core
     - Use of Repository, Models, Validation
     - Dapper to integrate with postgres database
-    
+
+- Migrations
+  - Migrations to database
 
 ### How to run
 
