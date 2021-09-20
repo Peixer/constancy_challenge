@@ -1,32 +1,21 @@
-### How to build application
+## Brick Abode Challenge - F#
 
-1. Make sure you have installed version of .Net SDK defined in `global.json`
-2. Run `dotnet tool restore` to restore all necessary tools
-3. Run `dotnet saturn migration` to create sqlite database
-3. Run `dotnet fake build -t Run` to start application in watch mode (automatic recompilation and restart at file save)
+Brick Abode Tech Challenge in F# - API for broker 
 
-### How to use `dotnet saturn`
+The purpose of the challenge was to create an API for broker, where can access users and providers information.
 
-Templates comes with `Saturn.Cli` tool installed by default. It's a CLI tool that can be used for project scaffold and managing generated DB migrations
+- I choose to create three projects WebApp, Core and Migrations.
+  
+- WebApp
+    - Controllers using Rest API naming patterns
+    - Validation input routes
+    - Dapper to integrate with postgres database
 
-#### Commands
+- Core
+    - Use of Repository, Models, Validation
+    
 
-`dotnet saturn` supports following commands:
+### How to run
 
-* `gen NAME NAMES COLUMN:TYPE COLUMN:TYPE COLUMN:TYPE ...` - creates model, database layer, views and controller returning HTML views
-* `gen.json NAME NAMES COLUMN:TYPE COLUMN:TYPE COLUMN:TYPE ...` - creates model, database layer and JSON API controller
-* `gen.model NAME NAMES COLUMN:TYPE COLUMN:TYPE COLUMN:TYPE ...` - creates model and database layer
-* `migration` - runs all migration scripts for the database
-
-#### Supported Types
-
-Generator supports following types:
-
-* `string`
-* `int`
-* `float`
-* `double`
-* `decimal`
-* `guid`
-* `datetime`
-* `bool`
+1. Clone the repository
+2. Run docker-compose up -d
