@@ -1,8 +1,10 @@
 module Router
 
 open Controllers
+open Npgsql.Logging
 open Saturn
 let api = pipeline { plug acceptJson }
+NpgsqlLogManager.Provider <- ConsoleLoggingProvider(NpgsqlLogLevel.Debug, true, true)
 
 let apiRouter =
     router {
