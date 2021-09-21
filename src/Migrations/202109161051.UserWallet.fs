@@ -1,7 +1,7 @@
 namespace Migrations
 open SimpleMigrations
 
-[<Migration(202109161051L, "Create UserWallets")>]
+[<Migration(6L, "Create UserWallets")>]
 type CreateUserWallets() =
   inherit Migration()
 
