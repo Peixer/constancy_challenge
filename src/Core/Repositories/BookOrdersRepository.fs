@@ -14,16 +14,16 @@ module Database =
             return!
                 query
                     connection
-                    "SELECT id, idUser, idPair, quantity, price, status, side, created, deleted FROM BookOrders WHERE deleted is null"
+                    "SELECT id, idUser, idPair, quantity, price, status, side, created FROM BookOrders WHERE deleted is null"
                     None
         }
 
-    let insert connectionString v : Task<Result<int, exn>> =
+    let insert connectionString v : Task<Result<BookOrder option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = 0
+                { id = Guid.NewGuid()
                   idUser = v.idUser
                   idPair = v.idPair
                   quantity = v.quantity
@@ -31,19 +31,28 @@ module Database =
                   status = 0
                   side = v.side
                   created = DateTime.Now
-                  deleted = DateTime.Now  }
-                
-            return!
+                  deleted = DateTime.Now }
+
+            let! insert =
                 execute
                     connection
-                    "INSERT INTO BookOrders(idUser, idPair, quantity, price, status, side, created) VALUES (@idUser, @idPair, @quantity, @price, @status, @side, @created)"
+                    "INSERT INTO BookOrders(id, idUser, idPair, quantity, price, status, side, created) VALUES (@id, @idUser, @idPair, @quantity, @price, @status, @side, @created)"
                     value
+
+            let v = (Some <| dict [ "id" => value.id ])
+            use connection = new NpgsqlConnection(connectionString)
+
+            return!
+                querySingle
+                    connection
+                    "SELECT id, idUser, idPair, quantity, price, status, side, created FROM BookOrders WHERE id=@id"
+                    v
         }
 
     let delete connectionString id : Task<Result<int, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            return! execute connection "DELETE FROM BookOrders WHERE id = @id::integer" (dict [ "id" => id ])
+            return! execute connection "DELETE FROM BookOrders WHERE id = @id" (dict [ "id" => Guid.Parse(id.ToString()) ])
         }
 
     let getAllByIdUser connectionString idUser : Task<Result<BookOrder seq, exn>> =

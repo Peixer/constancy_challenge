@@ -12,43 +12,48 @@ module Database =
             use connection = new NpgsqlConnection(connectionString)
 
             let v =
-                (Some <| dict [ "idProvider" => idProvider ])
+                (Some <| dict [ "idProvider" => Guid.Parse(idProvider.ToString()) ])
 
             return!
                 query
                     connection
-                    "SELECT id, name, idProvider, status, transactionFee, created, deleted FROM Pairs WHERE deleted is null and idProvider=@idProvider::integer"
+                    "SELECT id, name, idProvider, status, transactionFee, created FROM Pairs WHERE deleted is null and idProvider=@idProvider"
                     v
         }
 
-    let insert connectionString v (idProvider: string) : Task<Result<int, exn>> =
+    let insert connectionString v (idProvider: string) : Task<Result<Pair option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = 0
+                { id = Guid.NewGuid()
                   name = v.name
-                  idProvider = int idProvider
+                  idProvider = Guid.Parse idProvider
                   status = v.status
                   transactionFee = v.transactionFee
                   created = DateTime.Now
                   deleted = DateTime.Now }
 
-            return!
+            let! insert =
                 execute
                     connection
-                    "INSERT INTO Pairs(name, idProvider, status, transactionFee, created) VALUES (@name, @idProvider, @status, @transactionFee, @created)"
+                    "INSERT INTO Pairs(id, name, idProvider, status, transactionFee, created) VALUES (@id, @name, @idProvider, @status, @transactionFee, @created)"
                     value
+
+            let v = (Some <| dict [ "id" => value.id ])
+            use connection = new NpgsqlConnection(connectionString)
+            return! querySingle connection "SELECT id, name, idProvider, status, transactionFee, created FROM Pairs WHERE id = @id" v
+
         }
 
-    let delete connectionString (idProvider:string) id : Task<Result<int, exn>> =
+    let delete connectionString (idProvider: string) id : Task<Result<int, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = id |> int
+                { id = Guid.Parse(id.ToString())
                   name = ""
-                  idProvider = idProvider |> int
+                  idProvider = Guid.Parse idProvider
                   status = 0
                   transactionFee = 0.0
                   created = DateTime.Now
@@ -57,6 +62,6 @@ module Database =
             return!
                 execute
                     connection
-                    "UPDATE Pairs SET deleted = @deleted WHERE id = @id::integer and idProvider = @idProvider::integer"
+                    "UPDATE Pairs SET deleted = @deleted WHERE id = @id and idProvider = @idProvider"
                     value
         }

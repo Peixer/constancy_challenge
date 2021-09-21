@@ -28,7 +28,7 @@ module BookOrdersController =
                 let! result = Core.BookOrders.Database.insert cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess" :> obj
+                | Ok result -> return result.Value :> obj
                 | Error ex -> return raise ex
             else
                 return Core.Validation.Validate.formatResult validateResult :> obj

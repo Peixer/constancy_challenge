@@ -7,7 +7,7 @@ open FSharp.Control.Tasks.ContextInsensitive
 open Npgsql
 
 module Database =
-    let getAllByIdUser connectionString idUser : Task<Result<Core.UserWallets.UserWallet seq, exn>> =
+    let getAllByIdUser connectionString idUser : Task<Result<UserWallet seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
             let v = (Some <| dict [ "idUser" => idUser ])
@@ -15,42 +15,50 @@ module Database =
             return!
                 query
                     connection
-                    "SELECT id, idUser, idPair, amount, created, deleted FROM UserWallets WHERE deleted is null and idUser=@idUser::integer"
+                    "SELECT id, idUser, idPair, amount, created FROM UserWallets WHERE deleted is null and idUser=@idUser"
                     v
         }
 
-    let update connectionString v (id: string) : Task<Result<int, exn>> =
+    let update connectionString v (id: string) : Task<Result<UserWallet option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = int id
-                  idUser = 0
+                { id = Guid.Parse id
+                  idUser = Guid.Empty
                   idPair = v.idPair
                   amount = v.amount
                   created = DateTime.Now
                   deleted = DateTime.Now }
 
-            return! execute connection "UPDATE UserWallets SET idPair = @idPair, amount = @amount WHERE id = @id" value
+            let! update =  execute connection "UPDATE UserWallets SET idPair = @idPair, amount = @amount WHERE id = @id" value
+        
+            let v = (Some <| dict [ "id" => value.id ])
+            use connection = new NpgsqlConnection(connectionString)
+            return! querySingle connection "SELECT id, idUser, idPair, amount, created FROM UserWallets WHERE id=@id" v
         }
 
-    let insert connectionString v (idUser: string) : Task<Result<int, exn>> =
+    let insert connectionString v (idUser: string) : Task<Result<UserWallet option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = 0
-                  idUser = idUser |> int
+                { id = Guid.NewGuid()
+                  idUser = Guid.Parse idUser
                   idPair = v.idPair
                   amount = v.amount
                   created = DateTime.Now
                   deleted = DateTime.Now }
 
-            return!
-                execute
-                    connection
-                    "INSERT INTO UserWallets(idUser, idPair, amount, created) VALUES (@idUser, @idPair, @amount, @created)"
-                    value
+            let! insert =
+                    execute
+                        connection
+                        "INSERT INTO UserWallets(id, idUser, idPair, amount, created) VALUES (@id, @idUser, @idPair, @amount, @created)"
+                        value
+
+            let v = (Some <| dict [ "id" => value.id ])
+            use connection = new NpgsqlConnection(connectionString)
+            return! querySingle connection "SELECT id, idUser, idPair, amount, created FROM UserWallets WHERE id=@id" v
         }
 
     let delete connectionString id : Task<Result<int, exn>> =

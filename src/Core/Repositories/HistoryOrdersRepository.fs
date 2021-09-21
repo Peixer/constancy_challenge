@@ -20,16 +20,16 @@ module Database =
             return!
                 querySingle
                     connection
-                    "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE id = @id::integer"
-                    (Some <| dict [ "id" => id ])
+                    "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE id = @id"
+                    (Some <| dict [ "id" => Guid.Parse(id.ToString()) ])
         }
 
-    let insert connectionString v : Task<Result<int, exn>> =
+    let insert connectionString v : Task<Result<HistoryOrder option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = 0
+                { id = Guid.NewGuid()
                   idUser = v.idUser
                   idPair = v.idPair
                   quantity = v.quantity
@@ -37,11 +37,15 @@ module Database =
                   side = v.side
                   created = DateTime.Now }
 
-            return!
-                execute
-                    connection
-                    "INSERT INTO HistoryOrders(idUser, idPair, quantity, price, side, created) VALUES (@idUser, @idPair, @quantity, @price, @side, @created)"
-                    value
+            let! insert =
+                    execute
+                        connection
+                        "INSERT INTO HistoryOrders(id, idUser, idPair, quantity, price, side, created) VALUES (@id, @idUser, @idPair, @quantity, @price, @side, @created)"
+                        value
+            
+            let v = (Some <| dict [ "id" => value.id ])
+            use connection = new NpgsqlConnection(connectionString)
+            return! querySingle connection "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE id=@id" v
         }
 
     let getAllByIdUser connectionString idUser : Task<Result<HistoryOrder seq, exn>> =
@@ -52,7 +56,7 @@ module Database =
             return!
                 query
                     connection
-                    "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE idUser=@idUser::integer"
+                    "SELECT id, idUser, idPair, quantity, price, side, created FROM HistoryOrders WHERE idUser=@idUser"
                     v
         }
 

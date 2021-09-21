@@ -21,8 +21,7 @@ module ProvidersController =
         task {
             let! input = Controller.getModel<Core.Providers.Provider> ctx
 
-            let validateResult =
-                Core.Providers.Validation.validate input
+            let validateResult = Core.Providers.Validation.validate input
 
             if validateResult.IsEmpty then
 
@@ -30,7 +29,7 @@ module ProvidersController =
                 let! result = Core.Providers.Database.insert cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess" :> obj
+                | Ok result -> return result.Value :> obj
                 | Error ex -> return raise ex
             else
                 return Core.Validation.Validate.formatResult validateResult :> obj
@@ -40,15 +39,14 @@ module ProvidersController =
         task {
             let! input = Controller.getModel<Core.Providers.Provider> ctx
 
-            let validateResult =
-                Core.Providers.Validation.validate input
+            let validateResult = Core.Providers.Validation.validate input
 
             if validateResult.IsEmpty then
                 let cnf = Controller.getConfig ctx
                 let! result = Core.Providers.Database.update cnf.connectionString input id
 
                 match result with
-                | Ok _ -> return "Sucess" :> obj
+                | Ok result -> return result.Value :> obj
                 | Error ex -> return raise ex
             else
                 return Core.Validation.Validate.formatResult validateResult :> obj
@@ -86,7 +84,7 @@ module ProvidersController =
             | Ok result -> return result
             | Error ex -> return raise ex
         }
-        
+
     let ordersController idProvider =
         controller { index (fun ctx -> getOrders ctx idProvider) }
 

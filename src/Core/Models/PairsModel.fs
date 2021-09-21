@@ -6,7 +6,7 @@ open System
 type Pair =
     { id: Guid
       name: string
-      idProvider: int
+      idProvider: Guid
       status: int
       transactionFee: float
       created: DateTime

@@ -7,7 +7,7 @@ open Saturn
 
 module PairsControllers =
 
-    let indexAction (ctx: HttpContext) (idProvider: string) =
+    let indexAction (ctx: HttpContext) (idProvider) =
         task {
             let cnf = Controller.getConfig ctx
             let! result = Core.Pairs.Database.getAll cnf.connectionString idProvider
@@ -17,7 +17,7 @@ module PairsControllers =
             | Error ex -> return raise ex
         }
 
-    let createAction (ctx: HttpContext) (idProvider: string) =
+    let createAction (ctx: HttpContext) (idProvider) =
         task {
             let! input = Controller.getModel<Core.Pairs.Pair> ctx
             let validateResult = Core.Pairs.Validation.validate input
@@ -28,14 +28,14 @@ module PairsControllers =
                 let! result = Core.Pairs.Database.insert cnf.connectionString input idProvider
 
                 match result with
-                | Ok _ -> return "Sucess" :> obj
+                | Ok result -> return result.Value :> obj
                 | Error ex -> return raise ex
             else
                 return Core.Validation.Validate.formatResult validateResult :> obj
 
         }
 
-    let deleteAction ctx (idProvider: string) id =
+    let deleteAction ctx (idProvider) (id:string) =
         task {
             let cnf = Controller.getConfig ctx
             let! result = Core.Pairs.Database.delete cnf.connectionString idProvider id
@@ -45,7 +45,7 @@ module PairsControllers =
             | Error ex -> return raise ex
         }
 
-    let resource idProvider =
+    let resource (idProvider: string) =
         controller {
             index (fun ctx -> indexAction ctx idProvider)
             create (fun ctx -> createAction ctx idProvider)

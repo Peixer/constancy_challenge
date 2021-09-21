@@ -18,7 +18,7 @@ module UserWalletsController =
             | Error ex -> return raise ex
         }
 
-    let createAction (ctx: HttpContext) (idUser: string) =
+    let createAction (ctx: HttpContext) (idUser) =
         task {
             let! input = Controller.getModel<Core.UserWallets.UserWallet> ctx
 
@@ -31,13 +31,13 @@ module UserWalletsController =
                 let! result = Core.UserWallets.Database.insert cnf.connectionString input idUser
 
                 match result with
-                | Ok _ -> return "Sucess" :> obj
+                | Ok result -> return result.Value :> obj
                 | Error ex -> return raise ex
             else
                 return Core.Validation.Validate.formatResult validateResult :> obj
         }
 
-    let updateAction (ctx: HttpContext) (id: string) =
+    let updateAction (ctx: HttpContext) (id) =
         task {
             let! input = Controller.getModel<Core.UserWallets.UserWallet> ctx
 
@@ -49,7 +49,7 @@ module UserWalletsController =
                 let! result = Core.UserWallets.Database.update cnf.connectionString input id
 
                 match result with
-                | Ok _ -> return "Sucess" :> obj
+                | Ok result -> return result.Value :> obj
                 | Error ex -> return raise ex
             else
                 return Core.Validation.Validate.formatResult validateResult :> obj
