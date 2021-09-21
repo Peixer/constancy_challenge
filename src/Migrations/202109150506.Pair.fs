@@ -7,9 +7,9 @@ type CreatePairs() =
 
   override __.Up() =
     base.Execute(@"CREATE TABLE Pairs(
-      id SERIAL NOT NULL PRIMARY KEY,
+      id UUID DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY,
       name TEXT NOT NULL,
-      idProvider SERIAL NOT NULL,
+      idProvider UUID NOT NULL,
       status integer NOT NULL,
       transactionFee real NOT NULL,
       created timestamp NOT NULL,

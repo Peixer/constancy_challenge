@@ -7,9 +7,9 @@ type CreateUserWallets() =
 
   override __.Up() =
     base.Execute(@"CREATE TABLE UserWallets(
-      id SERIAL NOT NULL PRIMARY KEY,
-      idUser SERIAL NOT NULL,
-      idPair SERIAL NOT NULL,
+      id UUID DEFAULT gen_random_uuid()  NOT NULL PRIMARY KEY,
+      idUser UUID NOT NULL,
+      idPair UUID NOT NULL,
       amount real NOT NULL,
       created timestamp NOT NULL,
       deleted timestamp
