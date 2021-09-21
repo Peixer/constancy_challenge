@@ -10,33 +10,41 @@ module Database =
     let getAll connectionString : Task<Result<User seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            return! query connection "SELECT id, name, created, deleted FROM Users WHERE deleted is null" None
+            return! query connection "SELECT id, name, created FROM Users WHERE deleted is null" None
         }
 
-    let update connectionString v (id: string) : Task<Result<int, exn>> =
+    let update connectionString v (id: string) : Task<Result<User option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = int id
+                { id = Guid.Parse id
                   name = v.name
                   created = DateTime.Now
                   deleted = DateTime.Now }
 
-            return! execute connection "UPDATE Users SET name = @name WHERE id=@id" value
+            let! update = execute connection "UPDATE Users SET name = @name WHERE id=@id" value
+
+            let v = (Some <| dict [ "id" => value.id ])
+            use connection = new NpgsqlConnection(connectionString)
+            return! querySingle connection "SELECT id, name, created FROM Users WHERE id=@id" v
         }
 
-    let insert connectionString v : Task<Result<int, exn>> =
+    let insert connectionString v : Task<Result<User option, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = 0
+                { id = Guid.NewGuid()
                   name = v.name
                   created = DateTime.Now
                   deleted = DateTime.Now }
 
-            return! execute connection "INSERT INTO Users(name, created) VALUES ( @name, @created)" value
+            let! insert = execute connection "INSERT INTO Users(id, name, created) VALUES (@id, @name, @created)" value
+
+            let v = (Some <| dict [ "id" => value.id ])
+            use connection = new NpgsqlConnection(connectionString)
+            return! querySingle connection "SELECT id, name, created FROM Users WHERE id=@id" v
         }
 
     let delete connectionString (id: string) : Task<Result<int, exn>> =
@@ -44,7 +52,7 @@ module Database =
             use connection = new NpgsqlConnection(connectionString)
 
             let value =
-                { id = id |> int
+                { id = Guid.Parse id
                   name = ""
                   created = DateTime.Now
                   deleted = DateTime.Now }

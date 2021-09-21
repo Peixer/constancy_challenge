@@ -6,8 +6,8 @@ open System
 type Provider =
     { id: int
       name: string
-      created: System.DateTime
-      deleted: System.DateTime }
+      created: DateTime
+      deleted: DateTime }
 
 module Validation =
     let validate v =

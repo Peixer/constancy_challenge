@@ -7,7 +7,7 @@ type CreateUsers() =
 
   override __.Up() =
     base.Execute(@"CREATE TABLE Users(
-      id SERIAL NOT NULL PRIMARY KEY,
+      id UUID DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY,
       name TEXT NOT NULL,
       created timestamp NOT NULL,
       deleted timestamp

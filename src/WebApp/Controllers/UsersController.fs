@@ -4,7 +4,6 @@ open Microsoft.AspNetCore.Http
 open Config
 open Saturn
 open FSharp.Control.Tasks
-open FSharp.Json
 
 module UsersController =
 
@@ -29,7 +28,7 @@ module UsersController =
                 let! result = Core.Users.Database.insert cnf.connectionString input
 
                 match result with
-                | Ok _ -> return "Sucess" :> obj
+                | Ok result -> return result.Value :> obj
                 | Error ex -> return raise ex
             else
                 return Core.Validation.Validate.formatResult validateResult :> obj
@@ -45,7 +44,7 @@ module UsersController =
                 let! result = Core.Users.Database.update cnf.connectionString input id
 
                 match result with
-                | Ok _ -> return "Sucess" :> obj
+                | Ok result -> return result.Value :> obj
                 | Error ex -> return raise ex
             else
                 return Core.Validation.Validate.formatResult validateResult :> obj

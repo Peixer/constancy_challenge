@@ -4,10 +4,10 @@ open System
 
 [<CLIMutable>]
 type User =
-    { id: int
+    { id: Guid
       name: string
-      created: System.DateTime
-      deleted: System.DateTime }
+      created: DateTime
+      deleted: DateTime }
 
 module Validation =
     let validate v =

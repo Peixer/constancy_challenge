@@ -1,7 +1,5 @@
 module Core.Validation.Validate
 
-
-
 let formatResult result =
     let validateResultFormatted =
         result
