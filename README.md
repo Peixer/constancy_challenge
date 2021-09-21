@@ -17,11 +17,27 @@ The purpose of the challenge was to create an API for broker, where can access u
 - Migrations
   - Migrations to database
 
-### How to run
+### How to run - Docker Compose
 
 1. Clone the repository
 2. Run docker-compose up -d
 
+### How to run - Without Docker Compose
+
+1. Clone the repository
+2. dotnet tool restore
+3. dotnet paket install
+4. docker run --name postgres-db -e POSTGRES_PASSWORD=WAhBRV2qHNA9c8yd744zH2w4 -p 5432:5432 -d postgres
+5. dotnet saturn migration
+6. dotnet fake build -t Run
+
+
+
+### Seeds
+
+To generate seeds of Users and Providers, execute the following command:
+
+- sudo bash seeds.sh
 
 ### Postman Doc
 
