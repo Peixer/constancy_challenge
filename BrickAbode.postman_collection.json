@@ -129,7 +129,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"Teste22\",\n    \"id\":11\n}",
+							"raw": "{\n    \"name\": \"Teste22\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -433,7 +433,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"Binance\",\n    \"id\":1\n}",
+							"raw": "{\n    \"name\":\"Binance\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
