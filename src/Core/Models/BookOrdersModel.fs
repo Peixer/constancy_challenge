@@ -1,28 +1,30 @@
 namespace Core.BookOrders
 
+open System
+
 [<CLIMutable>]
 type BookOrder =
-    { id: int
-      idUser: int
-      idPair: int
+    { id: Guid
+      idUser: Guid
+      idPair: Guid
       quantity: float
       price: float
       status: int
       side: int
-      created: System.DateTime
-      deleted: System.DateTime }
+      created: DateTime
+      deleted: DateTime }
 
 module Validation =
     let validate v =
         let validators =
             [ fun u ->
-                if 0 = u.idUser then
+                if Guid.Empty = u.idUser then
                     Some("idUser", "IdUser shouldn't be empty")
                 else
                     None
 
               fun u ->
-                  if 0 = u.idPair then
+                  if Guid.Empty = u.idPair then
                       Some("idPair", "IdPair shouldn't be empty")
                   else
                       None

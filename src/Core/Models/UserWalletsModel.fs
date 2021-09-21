@@ -1,19 +1,21 @@
 namespace Core.UserWallets
 
+open System
+
 [<CLIMutable>]
 type UserWallet =
-    { id: int
-      idUser: int
-      idPair: int
+    { id: Guid
+      idUser: Guid
+      idPair: Guid
       amount: float
-      created: System.DateTime
-      deleted: System.DateTime }
+      created: DateTime
+      deleted: DateTime }
 
 module Validation =
     let validate v =
         let validators =
             [ fun u ->
-                if 0 = u.idPair then
+                if Guid.Empty = u.idPair then
                     Some("idPair", "IdPair shouldn't be empty")
                 else
                     None

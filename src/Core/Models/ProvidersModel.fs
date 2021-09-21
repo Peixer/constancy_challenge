@@ -4,7 +4,7 @@ open System
 
 [<CLIMutable>]
 type Provider =
-    { id: int
+    { id: Guid
       name: string
       created: DateTime
       deleted: DateTime }

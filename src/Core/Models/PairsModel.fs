@@ -4,7 +4,7 @@ open System
 
 [<CLIMutable>]
 type Pair =
-    { id: int
+    { id: Guid
       name: string
       idProvider: int
       status: int
