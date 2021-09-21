@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    entrypoint: ./.docker/entrypoint.sh
+    container_name: api
+    volumes:
+      - .:/home/node/app
+    network_mode: host
+
+  postgres-db:
+    image: postgres
+    container_name: postgres-db
+    restart: always
+    volumes:
+      - postgres-dbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=WAhBRV2qHNA9c8yd744zH2w4
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    network_mode: host
+
+volumes:
+  postgres-dbdata:
+    external: true
