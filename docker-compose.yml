@@ -13,11 +13,8 @@ services:
     image: postgres
     container_name: postgres-db
     restart: always
-    volumes:
-      - postgres-dbdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=WAhBRV2qHNA9c8yd744zH2w4
-      - PGDATA=/var/lib/postgresql/data/pgdata
     network_mode: host
 
 volumes:
