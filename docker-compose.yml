@@ -15,6 +15,7 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=WAhBRV2qHNA9c8yd744zH2w4
+      - PGDATA=/var/lib/postgresql/data/pgdata
     network_mode: host
 
 volumes:
