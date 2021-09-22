@@ -58,13 +58,13 @@ module Database =
     let getAllByIdUser connectionString idUser : Task<Result<BookOrder seq, exn>> =
         task {
             use connection = new NpgsqlConnection(connectionString)
-            let v = (Some <| dict [ "idUser" => idUser ])
+            let v = (Some <| dict [ "idUser" => Guid.Parse(idUser.ToString()) ])
 
 
             return!
                 query
                     connection
-                    "SELECT id, idUser, idPair, quantity, price, status, side, created, deleted FROM BookOrders WHERE deleted is null and idUser=@idUser::integer"
+                    "SELECT id, idUser, idPair, quantity, price, status, side, created, deleted FROM BookOrders WHERE deleted is null and idUser=@idUser"
                     v
         }
 
@@ -73,7 +73,7 @@ module Database =
             use connection = new NpgsqlConnection(connectionString)
 
             let v =
-                (Some <| dict [ "idProvider" => idProvider ])
+                (Some <| dict [ "idProvider" => Guid.Parse(idProvider.ToString()) ])
 
             return!
                 query
