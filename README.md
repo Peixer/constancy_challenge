@@ -44,3 +44,14 @@ To generate seeds of Users and Providers, execute the following command:
 You can access entire routes inside the [postman file](https://github.com/Peixer/constancy_challenge/blob/master/BrickAbode.postman_collection.json)
 
 
+### Next Features
+
+- [ ] Use Pagination in GET routes
+- [ ] Handle error
+- [ ] Add route to filter histories
+- [ ] Use ORM
+- [ ] Unit test
+- [ ] Setup CI/CD
+- [ ] Add JSON API feature
+- [ ] JWT Authentication
+- [ ] Swagger Documentation
